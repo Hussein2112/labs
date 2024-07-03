@@ -1,0 +1,25 @@
+
+ 
+Install UFW.
+Run the commands sudo apt-get update and sudo apt-get install -y ufw.
+
+ 
+Configure the default rules to deny all inbound and permit all outbound.
+Run the following commands:
+
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+ 
+Configure UFW to permit only VNC, HTTP, and SSH traffic to the Ubuntu host.
+Run the following commands:
+
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 5900:5901/tcp
+ 
+Enable UFW.
+Run the command sudo ufw enable.
+
+ 
+Install the Lighttpd web server.
+Run the following command: sudo apt-get install -y lighttpd

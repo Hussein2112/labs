@@ -1,0 +1,35 @@
+
+Create the 'Projects' Parent Directories
+Create the first parent directory structure with the mkdir command, and use the -p switch:
+
+mkdir -p Projects/ancient
+mkdir Projects/classical
+mkdir Projects/medieval
+or
+
+mkdir -p Projects/{ancient,classical,medieval}
+
+Create the 'Projects' Subdirectories
+Create the subdirectory structure:
+
+mkdir Projects/ancient/egyptian
+mkdir Projects/ancient/nubian
+mkdir Projects/classical/greek
+mkdir Projects/medieval/britain
+mkdir Projects/medieval/japan
+or
+
+mkdir Projects/ancient/{egyptian,nubian}
+mkdir Projects/classical/greek
+mkdir Projects/medieval/{britain,japan}
+
+Create 'Projects' Empty Files for Next Step
+Create the empty files for later use:
+
+touch Projects/ancient/nubian/further_research.txt
+touch Projects/classical/greek/further_research.txt
+
+Rename a 'Projects' Subdirectory
+The user would like for the classical directory to be renamed to greco-roman.
+
+mv Projects/classical Projects/greco-roman

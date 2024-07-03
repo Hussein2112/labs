@@ -1,0 +1,88 @@
+Incorporating Conditional Statements in Bash Scripts
+Before You Begin
+You are logged in to the GUI as your student account. You have check_storage.sh open in a text editor.
+
+Scenario
+You want to make your script more useful to the administrators who will be receiving the reports. You can do this by enabling the script to make decisions based on various conditions. So, you'll use various if statements to output a different message for when the storage device meets certain thresholds of percentage full. Devices that are very close to full will trigger an urgent message, whereas those that are less full will trigger less urgent messages.
+
+Return to check_storage.sh in the text editor.
+
+Start writing the first conditional branch.
+
+Place your cursor on the blank line 12.
+
+Press Enter.
+
+On a new line 13, type the following:
+
+if [ $checkper -ge 95 ] && [ $checkper -le 100 ]
+
+Press Enter.
+
+On a new line 14, type then
+
+Place your cursor at the beginning of line 15 and press Spacebar four times. You're not required to indent or create whitespace, but it helps make the code more readable.
+
+Modify the echo statement on line 15 to read like the following:
+
+echo "ALERT: $part is $checkper% full! Recommend immediate action!"
+
+You've just created the first if branch. This code checks to see if the percentage full value is greater than or equal to 95 and less than 100. If it is, then the script will echo an alert to the storage_report.txt file. However, you still need to write more branches to handle other conditions.
+
+Write the next conditional branch.
+
+Place the cursor at the end of line 15 and press Enter.
+
+On a new line 16, type the following:
+
+elif [ $checkper -ge 50 ] && [ $checkper -lt 95 ]
+
+Press Enter.
+
+On a new line 17, type then
+
+Press Enter.
+
+On a new line 18, indent and then type the following:
+
+echo "CAUTION: $part is $checkper% full! Consider freeing up some space."
+
+If the previous condition is not met, the script will move on to evaluating the condition in this elif branch. The condition here checks to see if the percentage full is greater than or equal to 50 and less than 95. If it is, then a different message will be echoed to the report file.
+
+Finish writing the remaining conditional branches.
+
+Press Enter.
+
+Starting on a new line 19, type the following code:
+
+elif [ $checkper -lt 50 ]
+
+then
+
+echo "$part is $checkper% full. No action needed."
+
+else
+
+echo "Encountered an error. Status code: $?" >&2
+
+exit $?
+
+fi
+
+Note: Indent lines 21, 23, and 24.
+
+The next branch will output another message if the percentage full is less than 50. If none of these conditions are met (i.e., the percentage value is above 100 or it isn't a number), then the last else branch will throw an error. That exit code will be printed to the CLI and the script will terminate with this code.
+
+Save the script.
+
+Test the script to see if the conditions work as expected.
+
+From a terminal, enter check_storage.sh
+
+Enter cat storage_report.txt and verify that, because /dev/sda1 is not very full, the report indicates that no action is needed.
+
+
+
+In other words, the script chose the correct action to take based on the conditions you set.
+
+Note: You'll test some of the other conditions in the next activity.

@@ -1,0 +1,102 @@
+Activity 5-13
+Manipulating File Output
+Data File
+/opt/linuxplus/managing_files_and_directories/laptop_inv.txt
+
+Before You Begin
+You are signed in to the CLI as your student account. You have a /backup directory.
+
+Scenario
+In the past, the IT team has kept an inventory of all laptops issued to employees. As part of the new roll-out, you'll need to copy this information to a document that will be stored on a Linux server. The source information isn't formatted very well, and isn't in any kind of useful order. So, you decide to create a new file from scratch Afterward, you realize that the person who recorded the information made a mistake with the format of certain serial numbers. Instead of editing the file to replace every mistake individually, you'll leverage input and output redirection to fix the mistakes. Then, you'll output a sorted version that will be more useful for reference.
+
+You also want to regularly check the contents of the backup directory and place the results in a continually updated file. You want to be able to see the results in real-time at the CLI as well, so you'll use the tee command to accomplish both.
+
+Lastly, you'll use piping with grep to further hone your log analysis skills.
+
+Use output redirection to start adding text to the laptop inventory file.
+
+Enter touch laptop_inv.txt to create a blank file.
+
+Enter echo "User Make Serial No." > laptop_inv.txt
+
+Note: Separate each column by four spaces.
+
+Enter cat laptop_inv.txt and verify that the text output to the file.
+
+Use output redirection to append text to the file.
+
+Enter echo "jsmith Asus S489124" > laptop_inv.txt
+
+Enter cat laptop_inv.txt and verify that the header was replaced by this new row.
+
+This is because the > operator replaces any existing text with the provided string. You need to append that text.
+
+Reenter echo "User Make Serial No." > laptop_inv.txt
+
+Note: Remember, you can press the Up Arrow to return to a command you previously entered.
+
+Enter echo "jsmith Asus S489124" >> laptop_inv.txt
+
+Note: Again, separate each column by four spaces.
+
+This time, you're using the append operator (>>).
+
+Verify that the file has both the header and the first row.
+
+Use input redirection to replace all instances of a mistyped character in the file.
+
+Enter cp /opt/linuxplus/managing_files_and_directories/laptop_inv.txt laptop_inv.txt
+
+This will update your copy with a filled-in one.
+
+Examine the file and verify that the Asus serial numbers incorrectly start with the capital letter "S".
+
+Enter tr S 5 < laptop_inv.txt
+
+Verify that the instances of "S" were replaced with "5" and that the file was printed to the CLI.
+
+Use both input and output redirection at the same time to create a new file with the corrections.
+
+Enter tr S 5 < laptop_inv.txt > laptop_inv_fix.txt
+Examine the corrected file and verify that the appropriate correction was made.
+Use piping to sort the inventory list without the header.
+
+Enter sort -k1 laptop_inv_fix.txt
+
+Verify that, just like sorting the software list earlier, the header is included in the sort when it shouldn't be.
+
+Enter tail -n +3 laptop_inv_fix.txt | sort -k1
+
+The tail -n +3 command outputs everything after and including the third line, which is when the header ends. You are piping the output of this command to the sort command, which takes it as input.
+
+Verify that the inventory is now sorted by user name, but does not include the header. 
+
+Use the tee command to redirect output to both the CLI and a file at the same time.
+
+Enter sudo ls -lR /backup > backup_report
+
+Verify that ls didn't print its results to the CLI.
+
+Enter sudo ls -lR /backup | tee backup_report
+
+Verify that ls did print its results to the CLI.
+
+This is because piping the ls command to tee instead of doing a stdout redirect ensures that the results will appear at both the CLI and the specified file.
+
+Examine the backup_report file and verify that it also lists directory information.
+
+Use grep and cut together to make log analysis easier.
+
+Enter sudo grep 'password check failed' /var/log/secure
+
+This prints all instances of the text "password check failed" from the authentication log. However, it also prints every single part of the line, much of which isn't relevant and just adds to the noise.
+
+Enter sudo cut /var/log/secure -d " " -f5-12
+
+The cut command, using the -d option, trims each line using a space as a delimiter. The -f5-12 option specifies the range of the delimiter to extract. So, you're only extracting approximately the middle chunk of each line. However, you're still seeing every line of the log.
+
+Enter sudo grep 'password check failed' /var/log/secure | cut -d " " -f5-12
+
+Verify that you extracted all lines matching the provided string, as well as only the portion of the line that is relevant to your needs.
+
+The results show the system function that was called, an explanation of the event, as well as the user the event applies to.

@@ -1,0 +1,121 @@
+Configuring SELinux
+Scenario
+The Apache web server you installed is serving its purpose, but the team would 
+like to organize the server's files in a more descriptive way than the default 
+/var/www/html directory. Also, the system will eventually run multiple web apps,
+ each in a different path. For now, you need to place all of the web server 
+files in a new /var/develweb directory. Even though you apply the correct 
+standard permissions and configure Apache to allow access, SELinux will 
+prevent the httpd service from reading files in this new directory. So, you'll configure SELinux as needed to make sure the web server is operational.
+
+Objectives
+Completing this activity will help you to use content examples from the 
+following syllabus objectives:
+
+3.1 Given a scenario, apply or acquire the appropriate users and/or group 
+permissions and ownership
+
+4.3 Given a scenario, analyze and troubleshoot user issues
+
+4.4 Given a scenario, analyze and troubleshoot application and hardware issues
+
+Check the status of SELinux
+Enter sestatus to display the current status of SELinux.
+
+Verify that SELinux is enabled and in enforcing mode.
+
+Create a new directory to hold the web server files
+Enter sudo mkdir /var/develweb
+
+Enter sudo bash -c "echo This is a test > /var/develweb/test.html"
+
+Enter ls -al /var/develweb
+
+Verify that all users have read and execute permissions to this directory, 
+and that all users have at least read permissions to the file you just created.
+
+Configure Apache settings to use the new path as the document root and 
+enable access
+Using sudo, open the /etc/httpd/conf/httpd.conf in the text editor 
+of your choice.
+
+Enter /DocumentRoot to search for the appropriate field.
+
+Change this field to the following:
+
+DocumentRoot "/var/develweb"
+
+Below this, look for the < Directory "/var/www"> line and change it to 
+the following:
+
+<Directory "/var/develweb">
+
+There is not a space between < and D
+
+Save and quit the file.
+
+Enter sudo systemctl restart httpd
+
+Attempt to view the web page, and troubleshoot any issues
+From the desktop menu, select ApplicationsFavoritesFirefox Web Browser.
+
+Navigate to http://127.0.0.1/test.html
+
+Verify that you are presented with a Forbidden message.
+
+The message elaborates by saying you don't have permission to access the 
+HTML file.
+
+An SELinux alert will also pop up on the desktop, but will be minimized 
+after a few seconds. The alert may be accessed by selecting the icon that appears to the left of the clock in the taskbar.
+
+If the SELinux alert is still open, hover over it and select Show. 
+If the alert disappears, select the icon to the left of the clock to 
+open the same SELinux Alert Browser dialog box.
+
+Select Troubleshoot.
+
+Under If you were trying to, select the first option.
+
+Verify that the proposed solution involves changing the context label on the new directory path.
+
+The troubleshooter mentions many possible file types, but there is a way to narrow down which one you need to use.
+
+Close this dialog box.
+
+Verify the required SELinux context and the current one applied to the new path
+At a terminal, enter ls -Z /var/www
+
+Retrieving SELinux context information from the default document root should provide you with what you need.
+
+Verify that the "type" context for the html directory is httpd_sys_content_t
+
+This is the context you need to apply to your new directory to allow 
+Apache to access the files.
+
+Enter ls -aZ /var/develweb and verify that the "type" context for your 
+new directory is var_t
+
+This new directory inherited the default context of its container 
+directory (/var).
+
+Apply the appropriate context to the new web server directory
+Enter sudo semanage fcontext -a -t httpd_sys_content_t "/var/develweb(/.*)?"
+
+This adds the provided context for the /var/develweb directory. 
+The symbols at the end use a regular expression to apply this context to 
+all subdirectories and files within this directory.
+
+Enter ls -aZ /var/develweb and verify that the directory still doesn't have the correct context.
+
+Enter sudo restorecon -Rv /var/develweb
+
+Check the directory's contexts again and verify that it now shows 
+httpd_sys_content_t
+
+Confirm that you can now access the web page.
+Switch back to Firefox and refresh the page.
+
+Verify that the test page is displayed.
+
+Close the browser.

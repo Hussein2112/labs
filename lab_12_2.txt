@@ -1,0 +1,91 @@
+Encrypting a Volume
+Scenario
+The data you'll be backing up to your various logical volumes is sensitive in 
+nature and should not be readable if it were to fall into the wrong hands. 
+To protect the confidentiality of your backed up data, 
+you'll encrypt the volumes that hold this data. 
+You'll start with the databk volume. 
+Without the correct key (e.g., a passphrase), a user will only see the scrambled 
+ciphertext of this volume, and will be unable to read the plaintext data 
+of individual files.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+3.3 Summarize security best practices in a Linux environment
+Prepare the data backup volume for encryption
+Log in as student01.
+
+In a terminal window, enter sudo umount /backup/data
+
+Enter sudo shred -v --iterations=1 /dev/backup/databk
+
+This will overwrite the contents of the volume to securely wipe any existing data. This is a good practice to ensure that no sensitive data remains before you prepare the encrypted volume.
+
+Verify that the shred command finishes successfully.
+
+Encrypt the data backup volume with a passphrase
+Enter sudo cryptsetup -v --verify-passphrase luksFormat /dev/backup/databk
+
+Enter YES when prompted to confirm.
+
+When prompted for a passphrase, enter linuxplus
+
+Verify the passphrase.
+
+Verify that the command was successful.
+
+Open the encrypted volume and verify that it is listed
+Enter sudo cryptsetup luksOpen /dev/backup/databk databk
+
+Enter linuxplus as the passphrase.
+
+Verify that you are returned to a prompt without errors.
+
+Enter ls -l /dev/mapper | grep databk
+
+Verify that the encrypted volume is listed.
+
+Format the volume, mount it, and create a file
+Enter sudo mkfs.ext4 /dev/mapper/databk
+
+Verify that the file system was written.
+
+Enter sudo mount /dev/mapper/databk /backup/data
+
+Enter echo "Encrypted" | sudo tee /backup/data/encrypt.txt
+
+Add the encrypted volume to the /etc/crypttab and /etc/fstab files
+Enter sudo bash -c "echo databk /dev/backup/databk none >> /etc/crypttab"
+
+Enter sudo cat /etc/crypttab and confirm that the line was added.
+
+
+This file is similar to /etc/fstab and initializes encrypted storage devices at boot.
+
+Using sudo, open the /etc/fstab file in your text editor of choice.
+
+Edit the line that mounts the /dev/backup/databk volume to say the following:
+
+/dev/mapper/databk /backup/data ext4 nofail 0 0
+
+This will mount the encrypted volume after it has been unlocked. The nofail option indicates that the system should not report any errors if the volume is not detected.
+
+Save and close the file.
+
+Reboot the machine and unlock the encrypted volume
+Enter systemctl reboot -i
+
+Verify that, rather than the normal sign in screen, you are prompted to unlock the encrypted volume with your passphrase.
+
+Enter linuxplus
+
+Sign in as your student account.
+
+Using your preferred method, open the /backup/data/encrypt.txt file and verify you can read its plaintext contents.
+
+Enter sudo bash -c "echo > /etc/crypttab"
+
+You're clearing this file so you won't be prompted to unlock the volume every time you reboot. You can still unlock the volume manually after you've booted into the OS.
+
+Encrypting a volume in this way requires physical access to the computer in order to unlock it and complete the boot process. You won't be able to SSH into the system to unlock it.

@@ -1,0 +1,63 @@
+Activity 7-5
+Configuring GRUB 2
+Before You Begin
+You are logged in to the CLI as your student account.
+
+Scenario
+Some of your fellow administrators are claiming that their Linux servers aren't booting properly. 
+You are assigned to the task of troubleshooting these issues. 
+You find that someone has modified the settings in the boot loader because there is no password protection. 
+After correcting the boot configuration, you decide to protect GRUB 2 with a password so that only authorized users can modify it.
+
+1- Verify that GRUB 2 is installed.
+a- Enter sudo ls -l /boot/efi/EFI/centos
+b- Verify that grub.cfg exists in this directory. 
+   The presence of this file usually indicates that GRUB 2 
+   is successfully installed on the EFI system partition.
+c- Enter sudo cat /boot/efi/EFI/centos/grub.cfg and verify that the 
+configuration file is populated.
+
+
+2- Create a password to lock the GRUB 2 configuration with.
+a- Enter sudo grub2-mkpasswd-pbkdf2 | sudo tee -a /etc/grub.d/40_custom 
+   You're redirecting the output to the custom configuration file. 
+   You'll clean up this file shortly.
+b- Enter Pa22w0rd as the password.
+c- Reenter the same password.
+d- Verify that the PBKDF2 password is generated. 
+   PBKDF2 uses a cryptographic technique called hashing to protect 
+   the password in storage.
+
+
+3- Adjust the custom GRUB 2 configuration file to require your password.
+a- Using sudo, open /etc/grub.d/40_custom in the text editor of your choice.
+b- Move the cursor to the line that says "Enter password:" and cut this entire line.
+c- Cut the line after it that shows the reenter password prompt.
+d- From the "PBKDF2" line, delete the string of text that says 
+   "PBKDF2 hash of your password is".
+e- On the same line, replace the text you deleted with password_pbkdf2 student01
+f- Insert a new line above this that says: set superusers="student01"
+g- Save and close the file.
+
+
+4- Update the main GRUB 2 configuration file to apply your changes.
+
+a- nter sudo grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
+b- Verify that no errors are returned and that the "done" message is displayed. 
+   This indicates that the new GRUB 2 configuration file has 
+   been generated successfully.
+
+5- Test the password from the GRUB 2 boot menu.
+a- Enter reboot
+b- On the GRUB 2 boot menu screen, press Esc to stop the default selection timer.
+c- Press e to edit the GRUB 2 configuration.
+d- At the Enter username prompt, enter your student account name.
+
+Caution: Input your user name and password very carefully, as you will be unable to edit any mistakes.
+
+e- At the Enter password prompt, enter Pa22w0rd
+f- Verify that you can see the GRUB 2 configuration on the screen.
+g- Press Esc to exit editing mode.
+h- Press Enter to boot back into the default selection.
+
+Log back in as your normal user account.

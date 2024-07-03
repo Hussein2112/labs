@@ -1,0 +1,76 @@
+Exploring the Linux Kernel
+Scenario
+As a system administrator, you may need to troubleshoot issues related to the kernel. So, you want to explore kernel concepts to refresh your knowledge.
+
+View version information about the currently running kernel.
+
+Log in  to your system
+Enter uname -a to view information related to the currently running Linux kernel.
+What is the base version of your currently running kernel according to the uname command?
+
+ A- 2.4
+
+ B- 2.6
+
+ C- 3.4
+
+ D- 3.10
+
+ E- 4.18
+
+
+True or False? According to the uname command, you are running a 32-bit hardware platform.
+
+
+Which function is associated with the SCI layer of the kernel?
+
+ A- Passing requests to device drivers.
+
+ B- Sending service requests to the kernel.
+
+ C- Allocating processor time for functions.
+
+ D- Processing scheduling functions.
+
+ E- Organizing files on the file system.
+
+
+
+
+What are the major functions performed by the kernel? (Choose two.)
+
+ A- Kernel initialization
+
+ B- Process management
+
+ C- Memory management
+
+ D- Module installation
+
+ E- Dependency management
+
+
+Which of the following accurately describe the user space? (Choose two.)
+
+A-  It is the area of the memory where the kernel executes its services.
+
+B-  It is the area of memory in which most high-level software runs.
+
+C-  It is the part of the system that only logged in users can access.
+
+D- It is the area of memory in which background processes and low-level system libraries run.
+
+
+What is one disadvantage of a monolithic kernel compared to a microkernel?
+
+ A- Monolithic kernels are slower to access devices.
+
+ B- Monolithic kernels are larger and consume more RAM.
+
+ C- Monolithic kernels have a smaller kernel space and are less extensible.
+
+ D- Monolithic kernels can only run the bare minimum software to qualify as a fully functional OS.
+
+
+True or false? The Linux kernel is modular, enabling users to extend its functionality.
+

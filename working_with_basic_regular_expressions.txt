@@ -1,0 +1,23 @@
+
+Use regular expressions to locate information on http services.
+Create a file called http-services.txt in the cloud_user's home directory that contains the values from /etc/services containing 'http' at the beginning of each line, but not containing an 'x' at the end.
+
+This can be accomplished via the following command:
+
+ grep ^http[^x] /etc/services > http-services.txt
+
+
+Use regular expressions to find port information for LDAP services.
+Look for everything that begins with 'ldap' within /etc/services where the fifth character can be any alphanumeric character and the sixth character is not the letter 'a'. The results from this search should be placed in a new file in the cloud_user's home directory called lpic1-ldap.txt.
+
+This can be accomplished with the following command:
+
+ grep ^ldap.[^a] /etc/services > lpic1-ldap.txt
+
+
+Create a new file based off of http-services.txt.
+Finally, remove any value from http-services.txt containing the word 'service' at the END of the string and concatenate those values to a new file in the cloud_user's home directory called http-updated.txt
+
+This can be accomplished with the following command:
+
+ grep -v service$ http-services.txt > http-updated.txt

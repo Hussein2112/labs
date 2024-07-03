@@ -1,0 +1,39 @@
+Enable SSH to Connect Without a Password from the `dev` User on `server1` to the `dev` User on `server2`
+We need to use SSH keys to satisfy this requirement, so generate them with this:
+
+ [dev@server1]$ ssh-keygen
+Then run:
+
+ [dev@server1]$ ssh-copy-id <server2 IP>
+
+
+Copy All tar Files from `/home/dev/` on `server1` to `/home/dev/` on `server2`, and Extract Them Making Sure the Output is Redirected to `/home/dev/tar-output.log`
+We need to use a method of copying files over a network. scp is the best tool, like this:
+
+[dev@server1]$ scp *.gz <server2 IP>:~/
+Then connect to server2 using ssh:
+
+[dev@server1]$ ssh <server2_IP>
+Then we can extract the files:
+
+[dev@server2]$ tar -xvf deploy_content.tar.gz >> tar-output.log
+[dev@server2]$ tar -xvf deploy_script.tar.gz >> tar-output.log
+Make sure to use >>, so that the output is appended rather than overwritten.
+
+Set the Umask So That New Files Are Only Readable and Writeable by the Owner
+The task is asking to make new files with the following permission: 0600.
+
+So we can do subtraction to figure out what our umask should be.
+
+0666 <-- Default
+
+0600 <-- Desired
+
+----
+
+0066 <-- What we need to set
+
+So we run:
+
+[dev@server2]$ umask 0066
+Verify the `/home/dev/deploy.sh` Script Is Executable and Run It

@@ -1,0 +1,133 @@
+Configuring a Firewall
+Scenario
+Your fellow network administrators have designed a DMZ in which you'll 
+need to place several public-facing Linux systems. For the most part, 
+these systems function as web servers, and need to allow users to connect 
+using the HTTP and HTTPS protocols. The servers are also running a custom 
+app that the development team has programmed to accept connections on port 7743. 
+So, your job is to tighten the network security of the servers without denying 
+access to the necessary services. You'll do this by configuring the firewalld 
+service, the default and preferred firewall service on CentOS 7.
+
+Objectives
+Completing this activity will help you to use content examples from the 
+following syllabus objectives:
+
+3.5 Given a scenario, implement and configure Linux firewalls
+
+4.4 Given a scenario, analyze and troubleshoot application and hardware issues
+
+Test the firewall to see if it's blocking a well-known port
+Switch to CentOS 7 (2nd)
+
+Enter systemctl status firewalld
+
+Confirm that the service is currently active and running.
+
+If it isn't, enter sudo systemctl start firewalld
+
+Switch to CentOS 7
+
+Enter sudo /usr/local/bin/nmap -sV server02 -p 80
+
+Verify that port 80/tcp is listed as "filtered", meaning that a firewall is likely blocking traffic on this port.
+
+Get more information about a specific zone
+Switch to CentOS 7 (2nd)
+
+Enter firewall-cmd --get-zones to get a list of all default zones.
+
+Enter sudo firewall-cmd --zone=dmz --list-all
+
+Verify that you see several details about this zone, including:
+
+Its target. The target defines the behavior for incoming connections 
+(i.e., accept, reject, or drop traffic). The default setting is to reject 
+traffic not matching any rules.
+
+What network interfaces this zone is currently applied to.
+
+What services, ports, and protocols are applied to this zone. In this case, SSH is the only service that will accept incoming connections on interfaces that use this zone.
+
+Additional rules for port forwarding, blocking ICMP (ping), and more.
+
+Enter sudo firewall-cmd --get-active-zones
+
+Verify that, currently, your main Ethernet interface is using the public zone.
+
+Set the dmz zone for your primary network interface
+Enter ip a and note the device name of your primary Ethernet interface.
+
+This is the interface that you configured in the networking lesson.
+
+Enter sudo firewall-cmd --zone=dmz --change-interface=ens32 --permanent
+
+Verify that the change was a success.
+
+Add services and a custom port to the zone
+Enter sudo firewall-cmd --zone=dmz --add-service=http --permanent
+
+Enter sudo firewall-cmd --zone=dmz --add-service=https --permanent
+
+You've just added HTTP and HTTPS as services that will apply to the dmz zone. In other words, traffic bound for these services will be allowed.
+
+Enter sudo firewall-cmd --zone=dmz --add-port=7743/tcp --permanent
+
+This adds a specific port instead of a defined service to the zone.
+
+Verify that your configurations were applied to the zone
+Enter sudo firewall-cmd --reload
+
+Enter sudo firewall-cmd --zone=dmz --list-all
+
+Verify the following about this zone:
+
+It is being used by your main network interface.
+
+The SSH, HTTP, and HTTPS services are active in the zone.
+
+TCP port 7743 is also active in the zone.
+
+Test the firewall to see if your configurations are working as intended
+Switch to CentOS 7
+
+Enter sudo /usr/local/bin/nmap -sV server02 -p 80
+
+Verify that the port is now "closed," indicating that the firewall permits traffic on this port, but there is not a service currently listening on this port.
+
+Use the same nmap command to scan for port 21 (FTP).
+
+Verify that it is filtered, indicating that the firewall is blocking traffic on this port as expected.
+
+Enter ssh student02@server02
+
+Verify that you are able to make a connection, indicating that SSH traffic is allowed.
+
+Enter exit to close the SSH session.
+
+What is the Linux kernel framework that most firewall services rely on 
+to some degree?
+Answer:
+Netfilter
+
+In an iptables table, what is the function of a chain, and how do chains 
+interact with one another?
+Answer:
+Chains are sets of rules that the table uses to implement firewall 
+functionality. Chains enable a progression of how firewall rules are evaluated;
+ traffic matching a rule in one chain can be passed to another chain, where 
+it is evaluated against a new set of rules.
+
+True or false? IP forwarding is most useful on systems with only one 
+network interface.
+Answer:
+False
+
+What are the differences between a firewall and an intrusion prevention system (IPS)? 
+Answer:
+Answers may vary, but firewalls typically allow or deny traffic into and 
+out of a network based on a set of predefined rules. An IPS evaluates 
+traffic that has made it past the firewall and looks for a repeated 
+pattern of anomalous or otherwise unwanted behavior. An IPS is therefore 
+a second layer of defense. Firewalls can also apply to outgoing traffic, 
+whereas IPSs tend to focus on just incoming traffic.

@@ -1,0 +1,71 @@
+Scenario
+In order to enhance your productivity at the CLI, you decide to customize your Bash shell environment. For security reasons, you want to minimize the number of commands that are kept in the shell history, so you'll adjust the appropriate environment variable. You also plan on creating a directory to hold your future scripts, and in order to easily execute the scripts in that directory, you'll need to add it to your search paths. Lastly, as part of your auditing duties, you find yourself entering a rather lengthy command at the CLI every so often; this can get tedious, so you'll create a short alias for that command to make things easier.
+
+Display the current environment variables.
+
+Log in as student01 with Pa22w0rd as the password.
+Open a terminal window.
+Enter env
+Verify that the current environment variables and their values appear on the screen.
+Verify that the HISTSIZE variable has a value of 1000, indicating that a maximum of 1,000 of the most recently entered commands are stored in memory.
+Reduce the maximum size of the command history by exporting its environment variable.
+
+Enter echo $HISTSIZE and verify that the variable has the expected value.
+
+Enter export HISTSIZE=5
+
+Note: This is value is intentionally low to make it easier to demonstrate.
+
+Enter more than five unique commands, one after another. For example, you could enter echo 1, echo 2, etc.
+
+Press the Up Arrow and verify that you can only return, at most, to the fifth-most recent command.
+
+Note: You can revert the history size if you prefer, or you can log out and it will revert automatically.
+
+Create a directory that will hold scripts.
+
+Enter sudo mkdir /scripts
+Enter cd /scripts
+Enter wget 144.202.51.229/scripts/testscript.sh 
+Enter testscript.sh
+Verify that the command was not found.
+Add /scripts as a search path to persist for the student account.
+
+Enter echo $PATH
+
+Verify the current search paths that are set in this environment variable.
+
+Ensure you are in your home directory.
+
+Open .bash_profile in the text editor of your choice.
+
+Scroll to the last line of the file and change it to say the following:
+
+export PATH=$PATH:/scripts
+
+Caution: Ensure you are appending /scripts to the $PATH variable, or you will overwrite the existing paths and be unable to easily enter many commands.
+
+Save and close the file.
+
+Test that the path works as intended.
+
+Enter "source .bash_profile" to reload your Bash profile and its variables.
+Open a terminal and enter echo $PATH and verify that the new path was added to the end of the variable. k1gcz1ci.jpg
+Enter testscript.sh and verify that the script executed successfully.
+Create an alias for a lengthy command.
+
+Enter lastlog | tail -n +2 | sort -k1
+
+Verify that the list is sorted by user name, rather than the default of last login time. This is a somewhat cumbersome command to type over and over, so you'll create an alias to save time.
+
+Open .bashrc in the text editor of your choice.
+
+At the bottom of the file, on a new line, type the following:
+
+alias ulog='lastlog | tail -n +2 | sort -k1'
+
+Save and close the file.
+
+Enter source .bashrc
+
+Enter ulog and verify that it produced the expected results.

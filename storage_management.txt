@@ -1,0 +1,65 @@
+First, make sure you have two spare disks ... sdb and sdc
+if your disknames are different then apply your disknames accordingly
+ 
+Create a 2 GB GPT Partition on `/dev/sdb`
+Create our partition:
+
+gdisk /dev/sdb
+Use the following:
+
+Enter n to create a new partition.
+Accept the default for the partition number.
+Accept the default for the starting sector.
+For the ending sector we type +2G to create a 2 GB partition.
+Accept the default partition type.
+Enter w to write the partition information.
+Finalize these settings:
+
+partprobe
+ 
+Create a 2 GB MBR Partition on `/dev/sdc`
+Create our partition:
+
+fdisk /dev/sdc
+Use the following:
+
+Enter n to create a new partition.
+Accept the default for the partition number.
+Accept the default for the starting sector.
+For the ending sector we type +2G to create a 2 GB partition.
+Enter w to write the partition information.
+Finalize these settings:
+
+partprobe 
+ 
+Format the GPT Partition with XFS and Mount the Device on `/mnt/gptxfs` Persistently
+Format the partition:
+
+mkfs.xfs /dev/sdb1
+View the attributes of the block device:
+
+blkid
+In the output, copy the UUID of /dev/sdb1.
+
+Edit /etc/fstab and add the following line, replacing <UUID> with the one you copied:
+
+UUID="<UUID>" /mnt/gptxfs xfs defaults 0 0
+Save and exit.
+
+Create the mount point:
+
+mkdir /mnt/gptxfs
+Mount everything that's described in fstab:
+
+mount -a
+ 
+Format the MBR Partition with ext4 and Mount the Device on `/mnt/mbrext4`
+Create the filesystem:
+
+mkfs.ext4 /dev/sdc1
+Create the mount point:
+
+mkdir /mnt/mbrext4
+Mount the disk:
+
+mount /dev/sdc1 /mnt/mbrext4

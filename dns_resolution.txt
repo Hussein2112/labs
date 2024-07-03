@@ -1,0 +1,71 @@
+Testing DNS Resolution
+
+Issue:
+you will notice that we can NOT ping google.com by using name but we can ping google by using their IP address.
+This tells me that name resolution is NOT configured in this host.
+==============================================================================================================
+[root@box3 ~]# ping google.com
+ping: google.com: Name or service not known   #####PING by Hostname did NOT work"
+[root@box3 ~]#
+[root@box3 ~]# ping -c4 8.8.8.8               #####PING by IP address worked
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=54 time=31.2 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=54 time=32.5 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=54 time=29.8 ms
+64 bytes from 8.8.8.8: icmp_seq=4 ttl=54 time=28.6 ms
+
+--- 8.8.8.8 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3010ms
+
+
+==============================================================================================================
+
+Introduction:
+-------------
+In this hands-on lab, we will utilize the nmcli utility to configure our DNS resolution.
+
+Solution
+--------
+Open a terminal session, and log in via SSH using the credentials provided on the lab page.
+
+Review Current DNS Configuration
+See if the system can resolve hostnames to IP addresses:
+
+ host www.google.com
+Note that the command times out.
+
+Check to see what DNS server entries we have in the /etc/resolv.conf file:
+
+cat /etc/resolv.conf
+Note that we do not have any DNS entries listed.
+
+Review our network connections:
+------------------------------
+ nmcli con show  <==========
+In this scenario, Our default connection name is "System eth0". yours can be enp0s3 for example
+
+
+ Review our DNS IP settings:
+-----------------------------
+ nmcli -f ipv4.dns con show "System eth0" <================== 
+This system obviously does not have any DNS servers configured for use.
+
+Configure Your System to Use Your Network's DNS
+-----------------------------------------------
+Modify the system's default connection to use the network's DNS server:
+
+ sudo nmcli con mod "System eth0" ipv4.dns "10.0.0.2"
+Verify the settings using the nmcli command and then checking the /etc/resolv.conf file:
+
+ nmcli -f ipv4.dns con show "System eth0"
+ cat /etc/resolv.conf
+We need to reactivate the system's network connection for the change to take effect:
+
+ sudo nmcli con up "System eth0"
+Verify our settings once more:
+
+ cat /etc/resolv.conf
+Now, attempt to resolve a hostname to an IP address:
+
+ host www.google.com
+Our system should be able to resolve an IP address for the domain name.

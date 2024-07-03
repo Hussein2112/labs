@@ -1,0 +1,17 @@
+Install the Apache Web Server Package on Ubuntu WebServer
+======================================================
+You've been provisioned with an Ubuntu 16.04 LTS server and will need to install the Apache web server and Wget on it using the standard package manager:
+
+sudo apt install apache2 wget 
+Note: Ubuntu/Debian systems will usually start a service automatically, once its package is installed. You may need to update the package manager.
+
+sudo apt update
+Verify the Server is Running and Capture the Result
+Using the wget package, capture the output of a request to the local Apache server's default site in a file in the home directory called local_index.response.
+
+You can verify the service is running with:
+
+sudo systemctl status apache2
+And capture the output via the command:
+
+wget --output-document=local_index.response http://localhost

@@ -1,0 +1,25 @@
+
+Install firewalld.
+To install firewalld, run the following command:
+
+- sudo apt-get install firewalld
+ 
+Identify the default zone of firewalld.
+Use the following command to identify which zone is the default zone.
+
+sudo firewall-cmd --get-default-zone
+ 
+Create firewall rules.
+These rules need to take effect immediately without restarting the firewalld service, as well as survive a reboot. This means we must enter two rules for each protocol: one with the --permanent flag, and one without.
+
+Enter:
+
+ sudo firewall-cmd --zone=public --add-service=http --permanent  
+ sudo firewall-cmd --zone=public --add-service=http  
+ sudo firewall-cmd --zone=public --add-service=https --permanent  
+ sudo firewall-cmd --zone=public --add-service=https     
+
+
+Check to make sure http and https have been added, run:
+
+ sudo firewall-cmd --list-services  

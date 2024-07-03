@@ -1,0 +1,26 @@
+Activity 7-3
+Creating an initrd Image
+Scenario
+As part of your server infrastructure, you plan on having some systems boot from an NFS share. The kernel in the deployed systems doesn't have an NFS module. Without this, your systems cannot mount an NFS share as the root file system. So, you need to create a new initrd image so that the kernel can successfully mount the share. First, however, you'll establish a baseline image that other images can build off of.
+
+Create a new initrd image.
+
+Log in as your regular user not root so you can use sudo
+
+Enter uname -r to identify the current kernel.
+
+Enter sudo mkinitrd -v /boot/initrd-$(uname -r).img $(uname -r)
+
+$(uname -r) substitutes the name of the kernel in this command.
+
+Examine the verbose output from mkinitrd noting the various kernel modules that are included in the initrd image by default.
+
+Enter ls -l /boot and verify that your new initrd image was created. The image should be named initrd-.img and should have been last modified on today's date.
+
+Create an initrd image with an NFS module installed.
+
+Enter sudo mkinitrd -v --with=nfsv4 /boot/initrd-$(uname -r)-nfs.img $(uname -r)
+Enter ls -l /boot and verify your new NFS image was created.
+Examine the file sizes for both initrd images (the base image and the NFS image) i
+and verify that the NFS image is larger. 
+This suggests that the additional NFS module was loaded into the image, as intended.

@@ -1,0 +1,46 @@
+Monitoring Devices
+Scenario
+As part of your routine system administration tasks, you need to track the devices used on all the computers on the network 
+and maintain a list of hardware resources that are in use.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.7 Explain the use and operation of Linux devices
+
+4.4 Given a scenario, analyze and troubleshoot application and hardware issues
+
+Monitor any PCI devices that are connected to the system.
+In a terminal window, enter lspci
+
+Examine the brief list of hardware devices that are connected to PCI buses.
+
+Each line lists the PCI slot a device is connected to, as well as the vendor and product model of the device.
+
+Enter sudo lspci -v to view more information about each device.
+
+Verify that you can see attributes of each device, such as:
+
+Its vendor and product model.
+Its I/O ports.
+Its various capabilities.
+The kernel modules and drivers it uses.
+In the virtual lab environment no USB drivers are loaded. In a real, physical environment, you'd also be able to enter the 
+lsusb command to see USB devices on your system.
+
+Monitor a print job.
+Enter base64 /dev/urandom | head -c 10000000 > printfile.txt
+
+There are 7 zeros.
+
+This will create a text file 10 MB in size using random data encoded in readable text (Base64). This file is large enough to take some time to print, so you'll have a chance to monitor it in the queue.
+
+Enter lpr printfile.txt to start a print job.
+Enter lpq and note that you can see the print job in the queue, including information such as:
+
+Its rank (status).
+Who owns the print job.
+The number of the job.
+What file(s) are being printed.
+The total size of the request.
+Allow the print job to finish.

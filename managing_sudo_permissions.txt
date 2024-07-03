@@ -1,0 +1,18 @@
+
+Create new user account.
+To create the new user account, use the following command:
+
+sudo adduser dtrump
+When prompted for the password, enter:
+
+Tr3m3nds!
+
+
+Add user to `sudoers` file.
+To add a new user account to the sudoers file, run the following command:
+
+sudo visudo
+Then, edit the file and include the following line:
+
+dtrump ALL=(ALL:ALL) ALL  
+Now exit the file, saving the changes.

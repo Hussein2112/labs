@@ -1,0 +1,21 @@
+
+Find the Name of the Virtual Machine on the Server
+You will first have to sudo into the root user
+
+[cloud_user@host]$ sudo -i 
+To get a list of installed virtual machines you can run:
+
+[root@host]# virsh list --all
+check_circle
+Start the VM
+We can boot up a VM by running:
+
+[root@host]# virsh start centos7.0
+
+Determine the Location and Names of the Files that the VM Contain the VM Storage
+We can look at the configuration of an individual VM by running:
+
+[root@host]# virsh edit centos7.0
+What we'll see is an XML file. Sections labled disk contain the source file for all the disks allocated to the VM.
+
+We should see references to files in /var/lib/libvirt/images/, including centos7.0.

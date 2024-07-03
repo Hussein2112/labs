@@ -1,0 +1,28 @@
+First, we are going to break the selinux status of the webserver
+as root
+cd /root
+vim index.html   # and write a message like Hello All then save the file
+mv /var/www/html/index.html /var/www/html/index.html.old # in order to save the old index file
+
+move the index.html file in the root home directory to webserver Documentroot
+mv /root/index.html /var/www/html/index.html
+
+Now the webserver should be broken. SELinux is complaining because from its point of view, the web server is trying to read content in the root's homedir
+
+
+Verify there is an error by trying to access `localhost:80/index.html` using curl on the `www` host and check the audit log using sealert. Direct the output from sealert to `/home/cloud_user/seinfo.txt`.
+Run curl localhost:80/index.html to confirm the error.
+Run sealert -a /var/log/audit/audit.log > $HOME/seinfo.txt.
+ 
+Examine `$HOME/seinfo.txt` to figure out what is wrong and fix the error regarding `/var/www/html/index.html`.
+Reviewing the seinfo.txt file should indicate the context for /var/www/html/index.html is incorrect.
+Run restorecon /var/www/html/index.html to fix the issue.
+ 
+Restart `httpd` to check for other possible issues and correct any issues you might find.
+Run systemctl restart httpd (note: httpd should fail to restart).
+Based on journalctl --xe or by re-examining the audit log with sealert, you will see the file context is incorrect on /etc/httpd/conf/httpd.conf.
+Run restorecon /etc/httpd/conf/httpd.conf to fix the context on httpd.conf.
+Run systemctl start httpd and service should be restored.
+ 
+Confirm `localhost:80/index.html` loads correctly with curl on the `www` host.
+Run curl localhost:80/index.html and verify that you get the message "The website is up".

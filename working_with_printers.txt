@@ -1,0 +1,88 @@
+Install a PDF printer.
+-----------------------
+
+Run the following command to see what printers you have installed (there should not be any at this point):
+
+lpstat -s
+Next, run the following command to see what types of printer connections you have available to you. To set up the PDF print server, you will need the cups-pdf:/ available:
+I've used http since i didn't have cups-pdf:/ available
+
+sudo lpinfo -v
+Install a PDF printer to use with CUPS (we will use the -p option to set the name of the printer to CUPS-PDF and the -v option for the connection type):
+
+sudo lpadmin -p CUPS-PDF -v cups-pdf:/
+or #sudo lpadmin -p CUPS-PDF -v http:/  if you don't have cups-pdf:/ available
+
+We now need to determine what driver files we can use with this printer. Run the following command to query the CUPS database for files that contain the term "PDF":
+
+lpinfo --make-and-model "PDF" -m
+We will want to use the first option as our driver file.
+
+sudo lpadmin -p CUPS-PDF -m "CUPS-PDF.ppd"
+Run the following command, and note that we do not have a default printer yet:
+
+lpstat -s
+Check on the status of the printer we just installed:
+
+lpc status
+We will need to enable this printer so that it can accept jobs, and we should set it as the system default as well:
+
+sudo lpadmin -d CUPS-PDF -E
+sudo cupsenable CUPS-PDF
+sudo cupsaccept CUPS-PDF
+Check its status again:
+
+lpc status
+
+Print a test page.
+Run the following command to print a copy of the /etc/passwd file to a PDF file in your home directory:
+
+lpr /etc/passwd
+Verify that there is a passwd.pdf file within your home directory:
+
+ls
+
+Modify the printer and work with the print queue.
+Configure the printer so that it will not accept new print jobs at this time:
+
+sudo cupsreject CUPS-PDF
+Verify the status of the printer (look for the line queuing is disabled):
+
+lpc status
+Attempt to print the /etc/group file to your printer:
+
+lpr /etc/group
+You should have seen the following when you tried to print the file: lpr: Destination "CUPS-PDF" is not accepting jobs.
+
+Instruct your printer to accept incoming print jobs again:
+
+sudo cupsaccept CUPS-PDF
+Verify that your printer can accept jobs again (look for the line queuing is enabled):
+
+lpc status
+Configure your printer so that it can accept print jobs in its queue, but it will not print them:
+
+sudo cupsdisable CUPS-PDF
+Verify that your printer can accept jobs, but not print them (look for the lines queuing is enabled and printing is disabled):
+
+lpc status
+Attempt to print the /etc/group file again:
+
+lpr /etc/group
+Running the ls command on your home directory should not show a new PDF file.
+
+Check the printer's queue:
+
+lpq
+Note that your print job is still in the queue. Your printer can accept new jobs, but not print them at this time (as noted by the CUPS-PDF is not ready line in your lpq output). Run the following command, and substitute the JobID with the Job ID listed in your lpq command's output:
+
+lprm JobID
+Verify that the job has been removed from your queue. Note that your printer is still not ready to print new jobs:
+
+lpq
+Re-enable your printer's ability to print new jobs:
+
+sudo cupsenable CUPS-PDF
+Verify that your printer is ready:
+
+lpq

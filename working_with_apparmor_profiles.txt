@@ -1,0 +1,24 @@
+
+Change the dhclient AppArmor profile to complain mode.
+In order to make changes to AppArmor profiles, first we must install the apparmor-utils package with the following command:
+
+ sudo apt-get install -y apparmor-utils
+In order to change the dhclient AppArmor profile to complain mode, run the following command:
+
+ sudo aa-complain /sbin/dhclient
+Lastly, we must restart the AppArmor service for the changes to take effect:
+
+ sudo systemctl reload apparmor.service
+ 
+Create a new AppArmor profile for Xtightvnc and set its profile to complain mode.
+To create a new AppArmor profile for Xtightvnc, run the following command:
+
+ sudo aa-genprof Xtightvnc
+Then, press F to finish creating the profile.
+
+Next, set the new Xtightvnc AppArmor profile to complain mode:
+
+ sudo aa-complain /usr/bin/Xtightvnc
+Lastly, we need to restart the AppArmor service for the changes to take effect:
+
+ sudo systemctl reload apparmor.service

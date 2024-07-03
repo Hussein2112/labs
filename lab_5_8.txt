@@ -1,0 +1,52 @@
+Activity 5-8
+Manipulating Files and Directories
+Data File
+All files in: /opt/linuxplus/managing_files_and_directories/aups
+
+Before You Begin
+You are logged in to the CLI as your student account.
+
+Scenario
+You've been asked to move some corporate policy documents from the HR lead's workstation to a Linux server. The policies should be more centrally available and not dependent on one particular person's system. The HR lead admits that she didn't do a great job organizing the policy documents, as several older versions of acceptable use policies (AUPs) are mixed in with more current, active versions, and the old policies were written before she implemented a consistent naming convention. All of the documents are in a single directory named aups.
+
+First, you'll need to copy the documents to your home directory as a temporary staging area. You'll then organize these policy documents by retaining only the most recent ones and deleting older ones that no longer apply. You've also been told that more types of policies will need to be located on the server, other than AUPs. So, you'll effectively rename the aups folder to the more general policies and create some placeholder files. Later, when you receive more policies to add, you'll be able to deploy the directory where other authorized users can reach it.
+
+Copy the policy files.
+
+Enter cp -r /opt/linuxplus/managing_files_and_directories/aups ~/
+
+This copies the aups directory to your home directory, leaving its original location intact.
+
+Enter cd aups
+
+Enter ls -l and verify there are five files, three of which are marked as "OLD" and have inconsistent file names.
+
+Create a new directory and move the most recent policy files into it.
+
+Enter mkdir ../policies to create a new directory.
+Enter mv aup_v1.txt ../policies
+Enter mv aup_v2.txt ../policies
+Enter ls -l and verify that these two files are no longer in this directory.
+Verify that the recent policies were moved to the new folder.
+
+Enter cd ../policies
+Enter ls -l and verify that the two recent files are in this directory.
+Create placeholder files for future policies.
+
+Enter touch user_sec_policy.txt
+
+Enter ls -l and verify that a blank file with this name was created.
+
+Use touch to create three more blank files in ~/policies with the following names:
+
+server_sec_policy.txt
+email_policy.txt
+clean_desk_policy.txt
+Enter ls -l and verify that the files exist.
+
+Delete the aups folder and its contents as they're no longer needed.
+
+Enter rmdir ../aups
+Verify that you cannot remove this object because it is a directory. You need to specify the -R (recursive) option with rm in order to delete non-empty directories.
+Enter rm -R ../aups
+Enter ls .. and verify that the aups directory is gone, as are the old policy files.

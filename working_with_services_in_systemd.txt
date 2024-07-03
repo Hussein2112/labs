@@ -1,0 +1,64 @@
+Working with Services in Systemd - Start/Stop/Restart/Status
+The Development team is ready begin deploying their new web-based API. During their last update, someone made changes to the Apache server configuration file, and attempted to restart the service. But their Apache instance is not responding to HTTP requests.
+
+We have been asked to figure out why.
+
+Checking the status of the web service and associated log output should point us in the right direction in resolving the issue. Once it's fixed, we can give it back to the Dev team, and they can continue with their API deployment.
+
+Before We Begin
+We need to become root using the sudo command:
+
+[user@$host ~]$ sudo su -
+When prompted, enter the provided lab credentials.
+
+What Does systemctl Show Us?
+Once logged in, run a systemctl command to show the current state of the web server. Check to see if it is running and setup to start at when the system boots:
+
+[root@$host ~]# systemctl status httpd.service
+ httpd.service - The Apache HTTP Server
+  Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; vendor preset: disabled)
+  Active: inactive (dead)...
+In the second line of output, the Loaded: line, we can see that this httpd.service is disabled and won't start when the system boots. We need to fix that by enabling the service:
+
+[root@$host ~]# systemctl enable httpd.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.
+Information appears telling use that a link has been created to enable our httpd.service.
+
+Starting httpd Manually
+Now that we've enabled the server, we need to manually start the httpd service. To get the httpd service running immediately (rather than waiting for a reboot), perform the following command:
+
+[root@$host ~]# systemctl start httpd.service
+Check Its Status Again
+Just like we did when we first logged in, check the status of the web server again. This will look different now that we've enabled and started the service:
+
+[root@$host ~]# systemctl status httpd.service
+----------------------------------------------------------------------------------------------
+ httpd.service - The Apache HTTP Server
+   Loaded: loaded (/usr/lib/systemd/system/httpd.service; enabled; vendor preset: disabled)
+   Active: active (running) since Mon 2018-05-07 13:19:16 EDT; 6s ago
+     Docs: man:httpd(8)
+           man:apachectl(8)
+ Main PID: 1245 (httpd)
+   Status: "Processing requests..."
+   CGroup: /system.slice/httpd.service
+           1245 /usr/sbin/httpd -DFOREGROUND
+           1246 /usr/sbin/httpd -DFOREGROUND
+           1247 /usr/sbin/httpd -DFOREGROUND
+           1248 /usr/sbin/httpd -DFOREGROUND
+           1249 /usr/sbin/httpd -DFOREGROUND
+           1250 /usr/sbin/httpd -DFOREGROUND
+
+$DATE $TIME $host systemd[1]: Starting The Apache HTTP Server...
+$DATE $TIME $host systemd[1]: Started The Apache HTTP Server.
+----------------------------------------------------------------------------------------------
+
+Line 2 of the command output (starting with Loaded:) now says that it's enabled, and the next line (starting with Active:) tells us that httpd is currently running.
+
+One More Test
+Just to make sure everything is running correctly, use a web browser and check if Apache is actually serving out pages:
+
+[root@$host ~]# elinks http://localhost/
+If everything is running, we'll see the server's index.html page displaying a "Site Ready for Configuration" message.
+
+Conclusion
+We were handed a web server and needed to figure out why it wasn't responding to HTTP requests. After using 'systemctl' to look at the current status, we were able to figure it out. Then with a couple of quick commands, we got the service running right away and configured it to start at boot time. Congratulations on helping the Dev team continue on with their work.

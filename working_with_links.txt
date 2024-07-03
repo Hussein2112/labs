@@ -1,0 +1,54 @@
+
+ 
+Create a Symbolic (soft) Link
+Using the ln command, create a symbolic link from the file /etc/redhat-release to a new link file named release in the cloud_user's home directory. Using the ls command, verify that the link is valid. Use the cat command on the /home/cloud_user/release file to verify its contents.
+
+Can be completed with:
+
+ln -s /etc/redhat-release release
+ls -al
+
+cat /etc/redhat-release
+ 
+Check the Inode Numbers for the Link
+Using the ls command, first look at the inode number for the /home/cloud_user/release link and then check the inode number for /etc/redhat-release. They should be different, as the symbolic link is just a new file system entry that references the original file.
+
+Viewing the inodes can be done via:
+
+ls -i release
+ls -i /etc/redhat-release
+ 
+Create a Hard Link
+Create a directory called docs in your home directory. Copy the /etc/services file into this new docs directory. Using the ln command again, create a hard link from /home/cloud_user/docs/services to a link file named /home/cloud_user/services. Use the ls command to verify the link's inode number, and the inode number for the original /etc/services file.
+
+The commands to accomplish this task are:
+
+mkdir docs
+cp /etc/services docs/
+ln docs/services services
+ls -al (to show valid)
+
+ls -i services
+ls -i docs/services
+(same inode)
+ 
+Attempt to Create a Hard Link Across File Systems
+Using the ln command, attempt to make a hard link from /home/cloud_user/docs/services to /opt/services (you will have write permissions to this location). Why does this not work?
+
+To see the behavior of this task, try the following:
+
+lsblk 
+(/dev/xvda /)
+(/dev/xvdg1 /opt)
+
+ln docs/services /opt/services
+(fails)
+ 
+Attempt to Create a Symbolic Link Across File Systems
+Once more using the ln command, attempt to create a soft link from /etc/redhat-release to /opt/release. Why does this work, but creating a hard link fails? Turn the system over for grading when complete.
+
+Creating the soft link should succeed, even across filesystems, like so:
+
+   sudo  ln -s /etc/redhat-release /opt/release
+    (succeeds)
+ls -i (new inode vs. same inode on hard link)

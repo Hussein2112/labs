@@ -1,0 +1,46 @@
+Create user groups.
+There are four groups to be created:
+
+accounting
+engineering
+management
+hr
+Use the sudo groupadd -g #### [groupname] command:
+
+sudo groupadd -g 1111 accounting
+sudo groupadd -g 2222 engineering
+sudo groupadd -g 3333 management
+sudo groupadd -g 4444 hr
+ 
+Create directories.
+There are four directories to be created:
+accounting
+engineering
+management
+hr
+Create each group using the sudo mkdir /directoryname command:
+sudo mkdir /accounting
+sudo mkdir /engineering
+sudo mkdir /management
+sudo mkdir /hr
+ 
+Add each of the newly created directories to its associated group.
+Use the command sudo chgrp groupname /directoryname to add each of the newly created directories to its associated group:
+sudo chgrp accounting /accounting
+sudo chgrp engineering /engineering
+sudo chgrp management /management
+sudo chgrp hr /hr
+ 
+Set group permissions on each of the newly created directories.
+For each of the newly created directories, use the command sudo chmod g+rwx /directoryname to give the group owner read, write, and execute permissions to the directory:
+sudo chmod g+rwx /accounting
+sudo chmod g+rwx /engineering
+sudo chmod g+rwx /management
+sudo chmod g+rwx /hr
+ 
+Prevent non-group members from accessing files.
+In order to prevent other non-group members from reading and executing files in each of the newly created directories, use sudo chmod o-rx /directoryname command:
+sudo chmod o-rx /accounting
+sudo chmod o-rx /engineering
+sudo chmod o-rx /management
+sudo chmod o-rx /hr

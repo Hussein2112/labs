@@ -1,0 +1,72 @@
+
+ 
+Try out different compression methods
+Take a look at the original size of your junk.txt file, and make note of it:
+
+ls -lh junk.txt
+First, let's try the gzip compression method. The following command will compress the junk.txt file using gzip:
+
+gzip junk.txt
+Now, run the 'ls' command to view the size of the file:
+
+ls -lh
+Notice that the gzip command replaced the original file with a compressed version of it. The other compression commands we will use will do the same. Take note of the smaller size of the file. Then, decompress the gzip file to get the original junk file back:
+
+gunzip junk.txt.gz
+Next, perform the same steps, using the bzip2 compression method:
+
+bzip2 junk.txt
+Note that this compression method will take slightly longer than the previous. Make a note of the bzip2 file's size (typically, these file sizes are smaller than gzip compressed files):
+
+ls -lh junk.txt.bz2
+Once again, decompress the file to get the original back:
+
+bunzip2 junk.txt.bz2
+Now we will try out a newer compression method, using 'xz':
+
+xz junk.txt
+Note that this compression will take some time as well. Once the command completes, view your file's size:
+
+ls -lh
+And finally, decompress the file:
+
+unxz junk.txt.xz
+ 
+Create tar files using the different compression methods.
+This next set of tasks will focus on working with tar files. First, use the gzip compression method to make a tarball:
+
+tar -cvzf gztar.tar.gz junk.txt
+Then, make a new tarball using bzip2:
+
+tar -cvjf bztar.tar.bz2 junk.txt
+Lastly, use xz to make a tarball:
+
+tar -cvJf xztar.tar.xz junk.txt
+Run the ls command again to compare the file sizes:
+
+ls -lh
+Notice that creating tar files did not replace the original junk.txt file. Note also how close in size the xz and bzip2 files are to each other.
+
+ 
+Practice reading compressed text files.
+The final group of tasks will demonstrate how to read compressed files, without decompressing them on your disk. First, copy over the /etc/passwd file to your home directory:
+
+cp /etc/passwd .
+Now, compress the file using bzip2 into a tarball:
+
+tar -cvjf passwd.tar.bz2 passwd
+Use the bzcat command to read the bzip2 compressed file:
+
+bzcat passwd.tar.bz2
+Do the same for a gzipped tar file:
+
+tar -cvzf passwd.tar.gz passwd
+And use the zcat command to read this compressed file:
+
+zcat passwd.tar.gz
+And finally, create an xz tar file:
+
+tar -cvJf passwd.tar.xz passwd
+And use the xzcat command to read its contents:
+
+xzcat passwd.tar.xz

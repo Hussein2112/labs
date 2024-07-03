@@ -1,0 +1,20 @@
+Activity 5-2
+Creating Text Files
+Scenario
+As one of the Linux server administrators, you've been asked to start a list of software that is installed or should be installed on the system. So, you'll create a text file and begin entering the names of software packages into it. You'll then save your work and pick up with the file later.
+
+Create the software list file.
+Log in to your system
+Verify you are in your home directory.
+Enter "vim software_list.txt" to start editing a new file in Vim.
+Enter text into the file.
+Press i to switch to insert mode.
+Verify that the text "INSERT" is displayed at the bottom-left of the screen.
+On the first line, enter Apache HTTP Server
+Enter MySQL on the second line.
+Enter Eclipse on the third line.
+Type OpenVAS as the fourth and final entry.
+Save and view the text file.
+Press Esc to return to command mode.
+Enter :wq to save the file and quit Vim.
+Enter cat software_list.txt to view the file.

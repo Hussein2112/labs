@@ -1,0 +1,97 @@
+Before You Begin
+You are logged in to the GUI as your student account. Previously, you created a /scripts directory and added it to your PATH variable. S##cenario As part of managing the many storage partitions and volumes on your Linux servers, you routinely run a command like df to see if any devices are getting close to full. By monitoring the storage space being used by each device, you can avoid problems before they happen. However, entering this command over and over again is somewhat tedious, and it doesn't immediately retrieve the most relevant information in the most useful format. You want to be able to generate a more readable "dashboard" report of what storage devices are getting close to full, and which are fine. So, you decide to automate the process by writing a script to do the work for you.
+
+Create the script file and give yourself the necessary permissions to execute it.
+
+Enter sudo touch /scripts/check_storage.sh
+
+Enter sudo chown student01 /scripts/check_storage.sh
+
+Enter chmod 755 /scripts/check_storage.sh
+
+You're giving yourself full access and everyone else read and execute permissions.
+
+Set up your script editing environment.
+
+From the desktop menu, select ApplicationsAccessoriesText Editor. You can write source code at the CLI, but it's often easier to write it in a visual editor, especially if you're new to programming/script writing.
+Select OpenOther Documents.
+Navigate to /scripts and open check_storage.sh.
+On the bottom-right of the window, select the Ln 1, Col 1 drop-down list.
+Check the Display line numbers check box.
+Begin the script by writing some contextual echo statements.
+
+On line 1, type #!/bin/bash
+
+Press Enter twice to skip to line 3.
+
+Type echo "Beginning storage check"
+
+On new lines 5 and 6, type the following:
+
+echo "Date: $(date)"
+
+echo "------------------"
+
+The first line will simply echo the current date and time. It does this by leveraging the date command using command substitution. The second line just makes the formatting a little more visually pleasing; you don't need type an exact number of hyphens.
+
+Assign the main variables the script will use.
+
+On a new line 8, type part=/dev/sda1
+
+You're defining this variable so you can use it later as the name of the partition to check.
+
+On a new line 9, type the following:
+
+checkper=$(df -h | grep $part | awk '{print $5}' | cut -d '%' -f1)
+
+There's quite a bit being assigned to this variable. The following is a breakdown:
+
+First, the entire value is a command, so it uses the command substitution format, i.e., $()
+The first subcommand uses df to get drive information.
+This is piped to the grep command, which searches the results for anything matching the $part variable you just defined (in this case, /dev/sda1).
+The awk command extracts the data in the fifth column of these results. If you issue df -h by itself, you can see that the fifth column details the percentage of the storage device that is being used.
+Lastly, the cut command simply strips the percent sign (%) from the value so that the script can perform arithmetic on it.
+The ultimate result is just a single number that represents the percentage of storage being used by the /dev/sda1 partition.
+Write echo statements that report storage usage and indicate the check is complete.
+
+On a new line 11, type the following:
+
+echo "$part is $checkper% full."
+
+On a new line 13, type the following:
+
+echo "Storage check complete."
+
+Select Save.
+
+Test the script.
+
+Switch to a terminal, but keep the text editor open.
+At the terminal, enter check_storage.sh
+Verify that the output displays the date and time, the percentage full message, and the completion message. 
+Redirect the pertinent output to a file instead of the CLI.
+
+Return to the text editor.
+
+Place your cursor at the end of line 3 and press Enter twice.
+
+On a new line 5, type the following:
+
+exec >> ~/storage_report.txt
+
+Now, all output in this script will be redirected to a file, unless otherwise specified.
+
+Change the echo statement on line 15 so that it reads:
+
+echo "Storage check complete. Report saved to storage_report.txt." >&2
+
+This will redirect the message to the CLI (through stderr) in order to bypass the exec command.
+
+Save the script.
+
+Test the script again.
+
+From a terminal, run the script again.
+Verify that the only messages printed to the CLI are the beginning and completion messages.
+Enter cat storage_report.txt and verify that everything else was sent to this file. 
+From a functionality perspective, how does this script fall short? How could it be improved? See answer below.

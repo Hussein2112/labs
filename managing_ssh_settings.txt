@@ -1,0 +1,33 @@
+
+Change the default SSH port 22 to port 22000.
+To change the default port of 22 to 22000 for SSH, we'll need to edit the sshd_config file with the following command:
+
+sudo nano /etc/ssh/sshd_config
+Then, we'll need to edit one of the lines:
+
+Uncomment "#Port 22" and replace 22 with 22000
+Now, we'll need to restart the SSH service:
+
+sudo service sshd restart
+ If SELinux is in enforcing mode, you have to tell  SELinux about this change.
+# semanage port -a -t ssh_port_t -p tcp 22000
+
+Restrict SSH by Source IP using TCP Wrappers.
+We will need to edit the hosts.allow and hosts.deny files used by TCP Wrappers. Let's start with the hosts.deny file:
+
+ sudo nano /etc/hosts.deny
+Add the line:
+
+ sshd : ALL
+Then, save and exit the file.
+
+Now we need to edit the hosts.allow file:
+
+ sudo nano /etc/hosts.allow  
+Add the following line:
+
+ sshd : 10.0.0.0/24  
+Save and close the file.
+
+Read more abut tcp wrappers here
+https://www.cyberciti.biz/faq/tcp-wrappers-hosts-allow-deny-tutorial/

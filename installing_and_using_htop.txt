@@ -1,0 +1,15 @@
+Install `htop`.
+To install htop, run the following command:
+
+sudo apt-get install -y htop # if using Debian based Linux
+or
+yum install -y htop  # if using Red Hat based Linux
+
+
+Kill the Xtightvnc process through `htop`.
+Start htop:
+
+sudo htop
+To kill the Xtightvnc process, scroll the highlighted row to the Xtightvnc service and press F9, then ENTER to send the kill command.
+
+Once the process is killed, it will disappear from the htop interface.

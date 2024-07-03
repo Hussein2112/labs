@@ -1,0 +1,76 @@
+Incorporating Loops in Bash Scripts
+Before You Begin
+You are logged in to the GUI as your student account. You have check_storage.sh open in a text editor. You also have a 2 GB volume that is mounted on /backup/sys
+
+Scenario
+Your script is coming along, but it still needs improvement. You want to be able to output the status of all relevant storage partitions/volumes on the system, not just one or a few. You need a way to programmatically test your conditions for each device, rather than hardcode device names in your scriptespecially if the storage devices are likely to change. So, you'll leverage a for loop to iterate over each recognized storage device to perform the necessary checks.
+
+Adjust the part variable so that it holds an array of device names.
+
+Place your cursor on line 10 where the part variable is defined.
+
+Change this line to the following:
+
+part=$(df -h | awk '{print $1}' | grep '/dev')
+
+This is similar to the checkper variable. The difference is, it will extract all text that is in the first column (device name), and then filter by devices that start with /dev to exclude temporary file systems. The part variable therefore becomes an array that holds all permanent storage device names on the system.
+
+Insert a for loop that will iterate through the part array.
+
+Place your cursor at the end of line 10, then press Enter twice.
+
+On a new line 12, type the following:
+
+for i in ${part[*]}
+
+This begins the for loop. The i variable is the iterator. The part variable is being referenced as an array, with the asterisk (*) indicating all values in that array. For every index in the array (i.e., every device name), the script will execute what follows.
+
+Press Enter, and on line 13, type do
+
+This begins the code that the loop will execute on each iteration.
+
+Place your cursor at the end of line 28 and press Enter.
+
+On line 29, type done
+
+This terminates the for loop. The conditional statements within this loop will be executed for each iteration.
+
+Change $part references to use the iterator instead.
+
+On line 14, change the grep $part portion of the command to grep $i
+
+You need to get the information for each device individually. This means you need to reference the iterator, not the entire array.
+
+On line 18, change the $part reference to $i
+
+Do the same for lines 21 and 24.
+
+Clean up the source code.
+
+Highlight all of lines 14 through 28.
+Press Tab to indent the selected lines.
+Save the file.
+Test the script.
+
+From a terminal, enter check_storage.sh
+Enter cat storage_report.txt
+Verify that the report lists all storage devices and their appropriate warning messages.
+Simulate a volume becoming full, then test the script again.
+
+At a terminal, enter sudo dd if=/dev/zero of=/backup/sys/test bs=1M count=1100
+
+Verify that roughly 1.2 GB was copied to the volume.
+
+Run your script again and read the report.
+
+Verify that, this time, you receive a caution warning because the volume is past 50% full.
+
+Enter sudo dd if=/dev/zero of=/backup/sys/test2 bs=1M count=800
+
+Caution: The output file name and count have both changed.
+
+Run the script again and view the report.
+
+Verify that you received the most urgent message for the volume.
+
+Close the text editor, but keep the terminal open.

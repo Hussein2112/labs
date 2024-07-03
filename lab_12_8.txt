@@ -1,0 +1,95 @@
+Configuring rsyslog for Local and Remote Logging
+Scenario
+You want to ensure that your system is logging only messages that are useful to you and other analysts. So, you'll configure the local logging behavior to be more fine-tuned and less noisy. In addition, each system should be sending its authentication logs to a remote, centralized server for easy analysis and storage. So, you'll configure rsyslog to send these messages to a remote host over the network.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.5 Summarize and explain server roles
+
+3.4 Given a scenario, implement logging services
+
+Examine the default rules in the rsyslog configuration
+On CentOS 7 using sudo, open the /etc/rsyslog.conf file in the text editor of your choice.
+
+Scroll down to the RULES section.
+
+Verify that, in the left column, each line lists one or more severities and/or facilities.
+
+For example, the authpriv.* facility refers to private authentication messages, such as login and logout events. The asterisk (*) indicates that all severities should be logged.
+
+Verify that each line has a corresponding action in the right column.
+
+For example, the authpriv.* facility will log its messages in the /var/log/secure file.
+
+Filter the messages log to reduce the number of events it records
+Locate the line that logs events to the /var/log/messages file. This line tells rsyslogd to log all events that are of info level (6) severity and above (lower number is more severe). It makes exceptions for mail messages, private authentication messages, and cron messages (scheduler).
+
+On this line, replace the .info text with .notice
+
+The notice severity (level 5) logs normal but significant conditions. Now, the messages log will not record informational messages (level 6), but start with level 5 messages.
+
+Leave the file open.
+
+Configure your server02 to receive remote rsyslog messages over TCP
+On CentOS 7 (2nd) use sudo to open /etc/rsyslog.conf in the text editor of your choice.
+
+Scroll to the MODULES section.
+
+Find the line that says # Provides TCP syslog reception
+
+Change the two lines below so that they read as follows:
+
+$ModLoad imtcp
+
+$InputTCPServerRun 601
+
+Ensure there are no # symbols at the beginning of these lines.
+
+Save your changes and close the file.
+
+Enter sudo systemctl restart rsyslog to restart the service, causing it to reread the configuration file and implement your changes.
+
+Configure the client to send rsyslog traffic to server02
+Switch to the CentOS 7 virtual machine.
+
+Scroll to the bottom of the /etc/rsyslog.conf file, and on a new line, type the following:
+
+authpriv.* @@10.50.1.102:601
+
+Ensure there are no leading # symbols on this line.
+
+The @@ symbols indicate a TCP connection, whereas a single @ indicates UDP.
+
+Save and close the file.
+
+Enter sudo systemctl restart rsyslog to restart the service, causing it to reread the configuration file and implement your changes.
+
+Add an allow rule to the firewall for the rsyslog traffic
+Switch to the CentOS 7 (2nd) virtual machine.
+
+Enter sudo firewall-cmd --zone=dmz --add-port=601/tcp --permanent
+
+Enter sudo systemctl restart firewalld
+
+Generate an authentication failure message and confirm it was sent to your second server
+Switch to the CentOS 7 virtual machine.
+
+Enter su - ariley
+
+Provide an incorrect password and verify that you failed to log in as this user. By entering the wrong password, you will generate a log file entry.
+
+Switch to CentOS 7 (2nd)
+
+Enter sudo tail /var/log/secure | grep ariley
+
+Verify that you see an authentication failure message that was sent from your other server.
+
+Turn off remote logging
+Switch to CentOS 7
+
+Using sudo, open the /etc/rsyslog.conf file in the text editor of your choice.
+
+Scroll to the bottom of the file and remove the entire authpriv line.
+
+Save and close the file.

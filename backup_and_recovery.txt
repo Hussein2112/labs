@@ -1,0 +1,33 @@
+
+Install `rsync`
+Install rsync on both Server1 and Client1.
+ yum install rsync
+Note: To use the above command without adding sudo, you will need to be the root user. If you do not elevate privileges to root, you will need to add sudo to the beginning of the command.
+ 
+Create a Backup Directory
+Create a new directory called files4backup.
+mkdir /home/stdnt5/files4backup
+ 
+Add Two Test Files to the Backup Directory
+Create a new text file called backup1.txt.
+cat > /home/stdnt5/files4backup/backup1.txt
+Create a second new text file called backup2.txt.
+cat > /home/stdnt5/files4backup/backup2.txt
+ 
+Copy the Backup Directory from Server1 to Client1
+Run the following command:
+rsync -avz /home/stdnt5/files4backup/ stdnt5@10.0.1.11:/home/stdnt5/files4backup/  #where 10.0.1.11 is the remote server IP address
+ 
+Edit `backup1.txt` and Verify that the Changes Were Carried Over
+On Server1:
+
+Open the backup1.txt file.
+vim /home/stdnt5/files4backup/backup1.txt
+Add some text to the file.
+Perform a remote copy again.
+rsync -avz /home/stdnt5/files4backup/ stdnt5@10.0.1.11:/home/stdnt5/files4backup/  #where 10.0.1.11 is the remote server IP address
+
+On Client1:
+
+Open the backup1.txt file to verify that the changes were carried over.
+vim backup1.txt

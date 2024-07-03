@@ -1,0 +1,31 @@
+Activity 5-7
+Reading Files
+Before You Begin
+You are logged in to the CLI as your student account or root
+
+Scenario
+Another one of your duties is, naturally, to review the system's log files. But before you dive into log analysis, you need to determine the best way to display text files for reading. So, you'll use commands like cat and less to see where each one can come in handy.
+
+Open the messages log for reading.
+Enter sudo cat /var/log/messages
+Notice that the file's contents scroll past the screen many times, indicating that the file is too large to read from a single screen.
+Enter sudo less /var/log/messages
+Verify that only the first page of the file printed to the screen, and at the bottom of the screen, the name of the file is highlighted.
+Press the Down Arrow to scroll down a single line.
+Press the Up Arrow to scroll back up a single line.
+Press Space bar to scroll down an entire page.
+Press Page Up to scroll up and entire page.
+Search for a specific string in the log.
+Enter /SELinux
+Verify that the file jumps to the first instance of this text string, and that it is highlighted on the top line.
+Press n to view the next instance of this text string in the file.
+Press N (note the capitalization) to navigate to the previous instance of the search term in the file.
+Press q to quit reading the file. >Note: Remember, you can enter clear to clear the screen as needed.
+Print only the first and last lines of the log.
+Enter sudo head /var/log/messages
+Verify that the first 10 lines of the log were printed to the screen.
+Enter sudo tail /var/log/messages
+Verify that the last 10 lines of the log were printed to the screen.
+Why might printing only the first or last few lines be preferable to reading the entire file? 
+See Answer below:
+Answers may vary, as it depends on the purpose and format of the text file. For logs, reading the last 10 lines is a much quicker way to see the latest events on a system than using less would be. Printing the first 10 lines might be useful in situations where entries are repeated or otherwise superfluous, and you only need to see a few examples to grasp the idea.

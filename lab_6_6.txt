@@ -1,0 +1,40 @@
+Activity 6-6
+Monitoring Kernel Modules
+Before You Begin
+You are logged in to the CLI as your student account. Previously, you installed a USB Bluetooth driver module in the kernel.
+
+Scenario
+Now that you installed the USB Bluetooth module, you want to make sure it was successfully loaded by the kernel and that there are no errors.
+You also want to identify your kernel version details in case you need to reference it during troubleshooting.
+
+1- Enter cat /proc/version and use the result to answer the following questions.
+2- When was the kernel last compiled? 
+   Answers may vary, but the version used to develop this course was compiled on April 20 of 2018.
+3- What version of the GCC is your kernel running? 
+   Answers may vary depending on when the kernel was compiled. For the kernel version used to develop this course, the GCC version is 4.8.5.
+4- why might this information be useful? 
+    Answers may vary, but validating the kernel version and related information can help you diagnose issues that apply to specific versions, such as incompatible software.
+
+5- Examine the kernel message buffer.
+	a- Enter dmesg -h
+	b- Note the different facilities and log levels available. Examples include warn, err, notice, etc.
+	c- Enter dmesg -H
+	d- Verify that you can navigate through many pages of kernel messages. Not all of the information here will be useful to you, so you'll need to filter what you're looking for.
+	e- Press q.
+
+
+6- Filter the kernel message buffer for more useful messages.
+a- Enter dmesg -H -l warn
+b- Verify that the results have been filtered. All of these messages are marked as warning conditions. These don't necessarily indicate errors, but call attention to behavior that might be worth checking.
+c- If necessary, press q.
+d- Enter dmesg -H -l err These messages do indicate errors. You might not have any results, which means the kernel hasn't recorded any errors thus far.
+e- If necessary, press q.
+
+
+
+7- Search the kernel message buffer for evidence of USB drivers being loaded.
+	a- Enter dmesg -H | grep usb
+	b- Examine the results. The kernel records when USB storages devices are found and when drivers are registered. 
+           It also identifies when input devices that use USB are foundlike a mouse, keyboard, webcam, etc.
+	c- Enter dmesg -H | grep btusb
+	d- Verify that the kernel is reporting that a new interface driver was registered for the btusb module you installed earlier.

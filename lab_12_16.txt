@@ -1,0 +1,67 @@
+Compressing Files
+Scenario
+As you archive more and more data, you realize that the archives take up just as much space as the files they hold. This is a waste of space, especially if you're not working with the archives' contents regularly. So, you'll compress the archives so that they take up significantly less space without losing any data. You'll also try several different compression algorithms and compare their performance.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.3 Given a scenario, create, modify, and redirect files
+
+3.6 Given a scenario, backup, restore, and compress files
+
+Note the size of the employee data archive on the backup volume
+Enter cd /backup/data
+
+Enter ls -lh and note the size of the employee_data.tar file that you created earlier.
+
+Compress the archive with gzip
+Enter sudo bash -c "gzip -cv employee_data.tar > employee_data.tar.gz"
+
+Verify that the output indicates that the file was reduced by over 90% of its original size.
+
+By default, gzip replaces the file with the compressed version. With this command, you are using the -c option with output redirection to keep the original .tar file intact.
+
+Enter ls -lh and confirm that employee_data.tar.gz is much smaller in size.
+
+Decompress the archive
+Enter sudo tar -xzf employee_data.tar.gz
+
+Enter ls -l employee_data and verify that the individual files were extracted.
+
+With the -z option, the tar command has the ability to use gzip to compress and decompress archives. You could use gzip to decompress the file and then tar to unarchive it, but this is faster.
+
+Enter sudo rm -r employee_data to delete the directory.
+
+Compress and decompress the archive with xz
+Enter sudo xz -kv employee_data.tar
+
+The -k option keeps the original file intact.
+
+Verify that the output indicates that the compressed file is less than 5% the size of the original (expressed in decimal).
+
+mruutww4.jpg
+
+Enter ls -lh and verify that the employee_data.tar.xz file is even smaller than the .gz file.
+
+Enter sudo tar -xJf employee_data.tar.xz
+
+The tar command can also work with .xz files through the -J option. As before, this decompresses and unarchives the .tar archive all in one command.
+
+Enter ls -l employee_data and verify that all of the files are there.
+
+Enter sudo rm -r employee_data to delete the directory.
+
+Compress and decompress the archive with bzip2
+Enter sudo bzip2 -kv employee_data.tar
+
+Verify that the output indicates that the file was reduced by over 90% of its original size.
+
+Enter ls -lh and confirm that employee_data.tar.bz2 is slightly larger than the .gz equivalent.
+
+Enter sudo tar -xjf employee_data.tar.bz2
+
+The tar command can also work with .bz2 files through the -j option. As before, this decompresses and unarchives the .tar archive all in one command.
+
+Enter ls -l employee_data and verify that all of the files are there.
+
+Enter sudo rm -r employee_data to delete the directory.

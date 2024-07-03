@@ -1,0 +1,72 @@
+Configure a virtual PDF Printer
+Scenario
+#
+#
+#
+# if you want to use command line to install a Cups-PDF printer
+# First: yum -y install epel-release cups-pdf
+# Second: lpoptions -d cups-pdf  # This will make cups-pdf the default printer
+# 
+#
+# #cupsdisable Cups-PDF
+#  https://docs.oracle.com/cd/E19455-01/805-7229/printadmin-22348/index.html
+#
+#
+#
+#
+
+Right now, you don't have an actual printer connected to your Linux system, but you can still 
+print the /etc/passwd text file to a PDF, which is more suitable than a raw text file for distribution purposes. 
+Before you can create the PDF, you'll need to set up a virtual printer.
+
+Objectives
+===========
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.7 Explain the use and operation of Linux devices
+
+4.4 Given a scenario, analyze and troubleshoot application and hardware issues
+
+Examine the current list of printers
+Log in as student01 with Pa22w0rd as the password.
+
+From the Desktop of your Centos VM, select Applications--> System--> Tools-->Settings.
+
+From the navigation menu, select Devices.
+
+Select Printers.
+
+Verify that no printers are currently listed.
+
+Keep this window open.
+
+Install the Cups-PDF package
+In a terminal, enter sudo yum -y install epel-release cups-pdf
+
+You may need to issue this command twice in order to successfully download the package.
+
+You may receive a repeating messages that says an "Existing lock /var/yum/yum.pid: another copy is running." 
+Open a second tab in the terminal (or a second instance of a terminal), and then enter the following command:
+
+sudo systemctl kill packagekit or rm -f /var/yum/yum.pid
+
+Make the Cups-PDF printer your default printer
+Return to the Settings window and verify that Cups-PDF is listed in the printers list. If it is not listed, 
+repeat the install command you just entered.
+
+Select Unlock, then enter the root password.
+
+Next to the Cups-PDF printer, select the options gear icon, then select Use Printer by Default.
+
+Close the Settings window.
+
+Print a text file to PDF
+Open a terminal window and verify that you are in your home directory.
+
+Enter lpr /etc/passwd
+
+Verify that a printing notification pops up from the desktop.
+
+On the desktop, double-click passwd.pdf to open it.
+
+Close the PDF viewer when you're done.

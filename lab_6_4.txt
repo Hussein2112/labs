@@ -1,0 +1,62 @@
+Installing and Configuring Kernel Modules
+Before You Begin
+You are logged in to the CLI as your student account.
+
+Scenario
+You want to be able to wirelessly transfer files from the Linux server to your mobile device. So, you purchase a USB Bluetooth adapter and plug it into an available port on the server. However, you can't get the adapter to work properly. After examining the system, you discover that the driver for USB Bluetooth is not available. So, you'll inspect the kernel and see if you can identify and load the module that enables this functionality.
+
+1- Examine what modules are currently running.
+
+Enter lsmod | less
+Briefly scan through the list of installed kernel modules.
+Press q to quit.
+Enter lsmod | grep bluetooth
+Verify that there are no results. You don't yet know the name of the relevant module, so this isn't necessarily definitive proof that it isn't loaded.
+
+
+
+
+2- Search for the appropriate module.
+
+	a- Enter uname -r to retrieve the kernel version of the system.
+
+	b- Enter cd /lib/modules/[kernel version]/kernel/drivers
+
+	Note: Remember to use tab completion to fill the kernel version automatically.
+
+	c- Enter ls | grep bluetooth and verify that there is a bluetooth directory.
+
+	d- Enter cd bluetooth
+
+	e- Enter ls to see the available Bluetooth driver modules.
+
+
+3- Do any of these look like they could be a driver for a USB device that can send and receive Bluetooth signals? Click here for the answer.
+
+4- Learn more about this module.
+
+	a- Enter modinfo btusb.ko.xz | less        ###Note: for Linux Mint (Debian based) the command would be modinfo btusb.ko | less 
+	b- Read the information about this module, noting the following:
+		The description indicates that this is a generic Bluetooth USB driver.
+		It has many different aliases that aren't very user friendly.
+		It depends on several other modules.
+	c- Press q to quit.
+
+
+5- Configure an alias for the Bluetooth USB module.
+	a- Enter cd /etc/modprobe.d
+	b- Enter sudo vim btusb.conf to create a configuration file for the module.
+	c- Using Vim, type alias blue btusb as the first line.
+	d- Save and close the file.
+
+
+6- Insert the Bluetooth USB module into the running kernel.
+	a- Enter sudo depmod to update the dependencies database.
+	b- Enter sudo modprobe -a blue
+	c- Enter lsmod | grep btusb
+	d- Verify that the btusb module is listed, indicating that it is inserted into the kernel.
+
+
+7- Notice that there are other modules that begin with bt, as well as a module called bluetooth. Why were these added to the kernel as well? 
+   Answer:
+   These are modules that btusb depends on in order to function. The modprobe command automatically installs dependent modules when necessary.

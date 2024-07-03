@@ -1,0 +1,75 @@
+Activity 5-3
+Editing Text Files
+Data File
+/opt/linuxplus/managing_files_and_directories/software_list.txt
+
+Before You Begin
+You are logged in to the CLI as your student account.
+
+Scenario
+A colleague has taken your initial software list file and started filling it out. After he's done, you look it over to see if there are any mistakes that need correcting. You'll edit this file in both Vim and GNU nano to become more familiar with both text editors.
+
+Download the latest version of the software list.
+wget 45.32.212.147:8080/lessons/software_list.txt
+#Enter cp -a software_list.txt ~/
+
+Note: Remember, you can use tab completion to speed up the process.
+
+Enter ls and verify that software_list.txt is listed.
+
+Open the file in Vim and fix a spelling error.
+
+Enter vim software_list.txt
+Use the arrow keys to move the cursor down to the first instance of the text "Friefox".
+Position the cursor under the "i" in "Friefox".
+Press x to cut the letter "i".
+Move the cursor under the letter "F" and press p to paste the cut letter.
+Verify that the line now correctly says "Firefox".
+Use the search functionality to find and fix the other instance of the spelling error.
+
+Enter /Frie to search for the next occurrence of the misspelled name.
+Correct the name so that it says "Firefox".
+Fix the casing of one of the software names.
+
+Press k to go up line-by-line until you reach the line that says "openVAS" (note the lowercase "o").
+Press ^ (Shift+6) to go to the beginning of the line.
+Press x to delete the first letter.
+Press i to enter insert mode, then type a capital O
+Press Esc to exit insert mode.
+Delete a duplicate line and save the file.
+
+Press j to go down line-by-line until you reach the second line that mentions "Apache".
+Press d twice to delete the entire line.
+Enter :wq to save and close the file.
+Open the file in GNU nano and make a correction.
+
+Enter nano software_list.txt
+Use the arrow keys to move to the "Y" under the "Configured?" column for "Eclipse".
+Press Delete.
+Type N
+Remove a duplicate line.
+
+Navigate down to the second instance of "LibreOffice".
+Press Ctrl+K to cut the duplicate line.
+Add another entry to the file.
+
+Navigate to the beginning of a new line at the bottom of the file.
+
+Type Apache-Tomcat
+
+Press Tab until the cursor is under the "Version" column.
+
+Note: You can also use the spacebar for more precise alignment.
+
+Type 9.0.12
+
+Place the cursor under the "Installed?" column and type N
+
+Type N under the "Configured?" column.
+
+Save the file and close GNU nano.
+
+Press Ctrl+O.
+Press Enter to save the file.
+Press Ctrl+X to exit GNU nano.
+Enter cat software_list.txt to view the file.

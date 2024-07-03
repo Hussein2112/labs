@@ -1,0 +1,23 @@
+Create a New Partition
+Before you create a partition downnload the file 'How to add a disk on your virtual machine.docx' and see how to add a disk to your VM
+
+Run the lsblk command to verify that you have a /dev/sdb (or whatever new disk) device available. 
+Once confirmed, create a partition on the /dev/sdb disk using fdisk (note you will need to be root or  run sudo for these commands) that uses the entire disk:
+
+ lsblk
+ sudo fdisk /dev/sdb
+Create the File System
+Create a new XFS file system on this partition with the mkfs.xfs command. 
+Once that is complete, run the blkid command on the newly created partition to obtain the UUID. Make a note of this UUID:
+
+ sudo mkfs.xfs /dev/sdb1
+ sudo blkid /dev/sdb1
+Mount the new File System and Make it Permanent
+Edit the /etc/fstab file and create a new entry at the bottom for your new disk. The format should follow the following (be sure to use your disk's UUID from the previous step):
+
+UUID=YOURUUID /opt xfs defaults 0 0
+
+Save and close the file, then run the 
+sudo mount -a     command to mount your new partition.
+ df -h /opt 
+command should show you roughly 5GB available for the /opt directory.

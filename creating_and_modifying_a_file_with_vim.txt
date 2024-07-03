@@ -1,0 +1,72 @@
+
+Create a new file
+Using the vim text editor, create a new file called notes.txt in the cloud_user home directory. Enter the text "Beginning of Notes File" at the top of the document. Leave two blank lines under this top line. Save and close the file.
+
+The process is:
+
+vi notes.txt
+i (insert)
+  Text - Beginning of Notes File
+(2 blank lines)
+:wq!
+ 
+Send Data to the notes.txt file
+Using the cat command and output redirection, send the contents of the /etc/redhat-release file to the end of the notes.txt file, taking care to append the contents so as to not overwrite the file.
+
+This can be accomplished via:
+
+ cat /etc/redhat-release >> notes.txt
+ 
+Modify the notes.txt File
+Open the notes.txt file for editing again. Place the cursor before the openening parentheses around the word "Core." Using a keyboard shortcut, delete the text from the cursor position to the end of the line. Leave two blank lines under this line. Save and close the file.
+
+The following process will meet the criteria:
+
+vim notes.txt
+(cursor to 'core')
+SHIFT D (or d$) remove cursor to end of line
+o - blank line
+enter (2nd line)
+:wq!
+ 
+Send More Data to the File, and Modify Its Contents
+Using the free -m command and output redirection, send the output of the command to the end of the notes.txt file, taking care to append the contents so as to not overwrite the file.
+
+Open notes.txt for editing. Move the cursor to the line that begins with "Swap." Using a keyboard shortcut, delete this entire line. Leave two blank lines after the line that begins with "Mem".
+
+Follow this process:
+
+free -m >> notes.txt
+
+vim notes.txt
+move cursor to Swap line
+dd (delete line)
+o - blank line
+enter (2nd)
+SHIFT: 3 (3rd line of file)
+i - insert
+enter (blank line)
+:wq!
+ 
+Enter New Text into the File
+Using a keyboard shortcut, jump to line 3 of the file, then enter the text: "This is a practice system." Leave a blank line after this text has been entered. Save and close the file.
+
+You can accomplish this via:
+
+ vim notes.txt
+ SHIFT: 3 (moves to 3rd line)
+ i (insert)
+ This is a practice system
+ (enter for blank line)
+ :wq!
+ 
+Finalize the Notes File
+Using the dbus-uuidgen --get command, send the output of this command (which will retrieve the system's dbus unique ID) to the end of the notes.txt file. Take care to append the contents so as to not overwrite the file. Open notes.txt in vim, and use a keyboard shortcut to jump to the end of the file. At the beginning of the line that contains the dbus ID, enter in the following text: "Dbus ID = " so that there is a space between the equal sign and the Dbus ID number. Save and close the file. Hand the system over for grading.
+
+dbus-uuidgen --get >> notes.txt
+
+vim notes.txt
+SHIFT G (end of file)
+i - insert
+Dbus ID = (before ID)
+:wq!

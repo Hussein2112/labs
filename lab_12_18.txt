@@ -1,0 +1,32 @@
+Performing Integrity Checks on Files
+Scenario
+The R&D team is concerned about unauthorized users tampering with the prototype data. There's also the possibility that the data will become corrupted in a non-obvious way, which will compromise the integrity of the data. So, in order to be confident that the data hasn't changed, you'll run the files through a hash function and compare those hashes to hashes captured at a different time. If the hash values are the same, you can be assured of the data's integrity. If not, you'll know something went wrong.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+3.6 Given a scenario, backup, restore, and compress files
+Create hashes of the prototype files
+Enter sudo bash -c "sha256sum prototypes/* > hashes.txt"
+
+Enter sudo cat hashes.txt
+
+Verify that the text file lists five different hash values, each one corresponding to a specific .csv file.
+
+otmqv7la.jpg
+
+Compare the captured hashes to the hashes of the current files
+Enter sudo sha256sum -c hashes.txt
+
+Verify that the output indicates that all of the files are "OK".
+
+In other words, sha256sum hashed the files, then compared those hashes to the list of hashes you generated in the previous step. The hashes are all identical, implying that the files haven't changed. In a production environment, you'd compare these hashes after some time had passed, after some potentially disruptive event, or right before resynchronizing.
+
+Make changes to the files and verify that they fail the integrity check
+Enter sudo bash -c "echo GPU999 >> prototypes/gpu.csv"
+
+Enter sudo rm prototypes/hmd.csv
+
+Enter sudo sha256sum -c hashes.txt
+
+Verify that, this time, the integrity check failed on the file you modified, and that it could not find the file you deleted.

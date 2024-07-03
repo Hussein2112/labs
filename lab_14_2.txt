@@ -1,0 +1,24 @@
+Scheduling a Single Task
+Scenario
+Periodically, the developers at Develetech need to execute a task after hours. The schedule is not predictable and they need to be able to manage these tasks themselves. You will use the at command to satisfy this requirement.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.6 Given a scenario, automate and schedule jobs
+Schedule a task to run for two minutes into the future from your current time
+You will schedule a task that deletes a file from your home directory two minutes into the future.
+
+Log in as student01 with Pa22w0rd as the password.
+
+In your home directory, use the touch command to create a file named fileA
+
+Check the current time on your system by using the date command.
+
+Enter at now + 2 minutes to access the interactive mode of the at command.
+
+Enter rm -f ~/fileA and then press Ctrl+D to return to Bash.
+
+Enter atq to view the scheduled job.
+
+After two minutes, ensure that the command executed by checking the contents of your home directory to see if fileA was removed.

@@ -1,0 +1,12 @@
+
+Create a Shared Directory Called /test_scripts
+Create a directory called /test_scripts.
+
+Users Added to the System
+Add four user accounts to the system that will be used for working on the test scripts.
+
+Add Users to a Common Group
+Add the four new users to the testers group. Make sure this group is created in advance
+
+Set Appropriate Group Ownership and Permissions
+The group testers needs to own the /test_scripts directory so that the new users can all share it. Additionally, the owner and group permissions should be read, write, and execute, but there should be no privileges for anyone else.

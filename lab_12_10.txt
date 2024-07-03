@@ -1,0 +1,58 @@
+Examining Log Files
+Scenario
+Up until now, you've examined a few logs using standard tools like cat and less, and also filtered those logs using a tool like grep. However, you can also use journalctl to more efficiently shape those log messages in order to extract the specific information you're looking for. You'll also use last and its associated commands to get an overview of login events, such as when a user last logged in.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.5 Summarize and explain server roles
+
+3.4 Given a scenario, implement logging services
+
+Use journalctl to retrieve and filter messages
+Enter sudo journalctl and verify that you can page through many lines.
+
+Press q to quit.
+
+Enter sudo journalctl -p notice and verify that the log was filtered.
+
+Only messages matching severity level 5 appear.
+
+Press q to quit.
+
+Enter sudo journalctl -p notice | grep kernel
+
+Verify that kernel messages are displayed.
+
+These messages are similar to what you'd find in the /var/log/messages file.
+
+Enter sudo journalctl -f to retrieve the most recent entries.
+
+Press Ctrl+C to terminate the process.
+
+Enter sudo journalctl --since "2 hours ago" --until "30 minutes ago"
+
+Page through the results and verify that the first entry was two hours ago and that the last entry was 30 minutes ago.
+
+Press q to quit.
+
+Enter sudo journalctl -u httpd.service
+
+Verify that the log is filtered by Apache service messages.
+
+Press q to quit.
+
+Use last and related commands to examine account login events
+Enter last
+
+Verify that you can see the login and logout events for various users.
+
+Enter sudo lastb
+
+Verify that you can see a list of user accounts and the times that an authentication attempt with that account failed.
+
+Enter lastlog
+
+Verify that you can see the last time that each user logged in.
+
+This log also indicates when an account has never logged in.

@@ -1,0 +1,63 @@
+Implementing Version Control Using Git
+Scenario
+The development team needs a way to easily manage the different versions of the code they write. Multiple developers will be working in conjunction on the same project, so they need to a way to minimize conflicts while being able to revert to older versions of code, if necessary. So, you'll set up a Git repository for the developers so that they have a distributed version control system to work from.
+
+5.2 Given a scenario, carry out version control using Git
+Install and configure a Git repository
+Enter sudo systemctl kill packagekit to halt any updates the system may be doing.
+
+Enter sudo yum -y install git --disablerepo=internal-repo and wait for the installation process to complete.
+
+Enter git config --global user.name 'Student User'
+
+Enter git config -global user.email 'student01@develetech.com'
+
+Create a directory in your home directory called dev-project and use the cd command to enter the directory.
+
+Enter git init to designate the dev-project directory as a Git repository.
+
+A message is returned from Git indicating the repository is initialized.
+
+Enter ls -a to view the .git directory created by the initialization process.
+
+Create and manage a project using Git
+Use a text editor to create a file named HelloWorld.txt
+
+Enter the following text in the HelloWorld.txt file:
+
+Hello, World! From Student01
+
+Save your changes and close the editor.
+
+Enter git status to check the status of the HelloWorld.txt file.
+
+The file is marked as "Untracked", meaning it is not yet managed by Git.
+
+Enter git add HelloWorld.txt to enable Git to manage the file.
+
+Enter git commit -m "Initial Commit"
+
+This updates Git with the version information for the HelloWorld.txt file.
+
+Enter git status to check the status of the HelloWorld.txt file.
+
+The output indicates that there is nothing to commit because the HelloWorld.txt file version is now managed by Git.
+
+Commit a change to the Git repository
+) Use a text editor to open the HelloWorld.txt document, and add the following on a new line:
+
+Git version control test
+
+Save your changes and close the editor.
+
+Enter git status and observe that Git reports the HelloWorld.txt file as modified, but that the changes are not yet committed to the repository.
+
+Enter git add HelloWorld.txt to stage the changes.
+
+Enter git commit -m "Revision 1" to commit the changes to the master copy of the file.
+
+Enter git status and notice that there are now no changes to commit to the repository.
+
+Enter git log to view the revision history of the repository.
+
+Times and dates for the initial commit and the revision have been logged.

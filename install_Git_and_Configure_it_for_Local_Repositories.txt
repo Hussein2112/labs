@@ -1,0 +1,38 @@
+Installing Git and Configuring for Local Use
+Hello there. Come on in, and let's get set up to use Git. We've got a development team that's grown to the point where they feel the need to use a source control and versioning repository. They've chosen Git, and we need to set it up for them. We've got the credentials and access to their intended source control server, and they've asked us to set the default global configuration keys for it. We may tie this to a remote repository at some point, but for now this will remain local.
+
+We need to configure all settings globally for now, including the user (stdnt5) and email (`@mylabserver.com`).
+
+Install the Client Source Control Package
+First, we've got to install the 'git' package on the provisioned CentOS 7 system, which is done using the 'yum' package management system and the default configured repositories.
+
+Let's get logged in to the CentOS server. Git may already be installed, but it won't hurt anything to run this yum command:
+
+sudo yum -y install git
+Create the Global Configuration File for Git
+The dev team wants any settings we configure to be global, which requires the existence of a file called /home/stdnt5/.gitconfig for storing them. These commands modify that file. Since it isn't there to begin with, this one also creates it:
+
+git config --global user.name "stdnt5"
+git config --global user.email "stdnt5@mylabserver.com"
+git config --global core.editor "/usr/bin/vi"
+Note: We're setting vi here as a default editor, but if the dev team decides on emacs or nano, it's easy enough to change.
+
+Check Global Settings
+There are a couple ways to check whether or not our settings are configured. We can run:
+
+git config --list
+This outputs each setting on a line:
+
+user.name=stdnt5
+user.email=stdnt5@mylabserver.com
+core.editor=/usr/bin/vi
+Instead, we could run:
+
+cat ~/.gitconfig
+This just reads and outputs the file itself:
+
+[user]
+        name = stdnt5
+        email = stdnt5@mylabserver.com
+[core]
+        editor = /usr/bin/vi

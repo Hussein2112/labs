@@ -1,0 +1,31 @@
+Activity 5-5
+Searching for Files
+Before You Begin
+You are logged in to the CLI as your student account.
+
+Scenario
+One of your duties as a Linux administrator is to ensure your system logs are functioning as expected. These logs are crucial to diagnosing issues and identifying other unwanted behavior. So, to start, you'll search for where the log files are stored on your system. Then, you'll begin to search for logs that meet specific size requirements and have been recently updated. That way you'll be able to confirm which logs are continuously recording a significant amount of information, as expected.
+
+Search for the location of system log files.
+
+Enter sudo find / -type d -name 'log'
+Verify that there are several locations on the root volume that contain the world "log".
+Enter sudo find / -type f -name 'messages'
+Verify that the location of the messages log is identified as /var/log/messages
+Search for log files that are above 100 KB in size.
+
+Enter sudo find /var/log -type f -size +100k
+Note one of the files in the results and enter ls -lh /var/log/[file name] to verify that it is indeed above 100 KB in size.
+Search for log files that have been updated within the last 30 minutes.
+
+Enter sudo find /var/log -type f -mmin -30
+
+Verify that one of the files in the results has a timestamp within the last 30 minutes.
+
+Note: You can use ls -l on the file to do this.
+
+Search for log files that are either empty or above 100 KB, and have been updated in the last 30 minutes.
+
+Enter sudo find /var/log -type f -size 0 -or -size +100k -mmin -30
+Verify that these conditions are accurate for at least one of the files.
+What are some advantages of using the find command over using the locate command? 

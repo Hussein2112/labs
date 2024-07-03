@@ -1,0 +1,35 @@
+Synchronizing Files
+Scenario
+The Research and Development (R&D) department also has sensitive data that they need backed up: data on product prototypes, including model numbers, pricing, and release dates. Unlike the employee data, these files are likely to be updated regularly. So, you want to make sure the backup copies consistently align with the source copies. You'll use rsync to synchronize both copies, ensuring that the backup copies will only need to be updated if the source files have changed.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.3 Given a scenario, create, modify, and redirect files
+
+3.6 Given a scenario, backup, restore, and compress files
+
+Copy the prototype product files to your home directory
+Enter cd ~ to return to your home directory.
+
+Enter cp -r /opt/linuxplus/securing_linux_systems/prototypes prototypes
+
+Enter ls -l and verify that the directory was copied.
+
+Synchronize the prototype files with a directory on the backup volume
+Enter sudo rsync -av prototypes /backup/data
+
+In the output, verify that each file in the folder was copied, and that the command sent a specific number of bytes.
+
+Enter ls -l /backup/data and verify that all files were copied.
+
+Make a change to a file and resynchronize with the backup directory
+Enter echo -e "\nSW950,749.99,12/5" >> prototypes/swatch.csv to make a change to one of the files.
+
+Enter sudo rsync -av prototypes /backup/data
+
+In the output, verify that the only file that was sent was the one that you changed.
+
+kzbv02g8.jpg
+
+Enter cat /backup/data/prototypes/swatch.csv and verify that your change was added to the backup version of the file.

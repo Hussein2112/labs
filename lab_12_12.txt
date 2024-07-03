@@ -1,0 +1,43 @@
+Archiving and Restoring Files
+Scenario
+On a yearly basis, HR has been compiling information about Develetech employees and putting them in a spreadsheet. These spreadsheets contain personal information such as names, addresses, and phone numbers. You need to ensure that past years' reports are stored in backup should they ever need to be retrieved in the future. Because you won't need to regularly update these files, you decide to place them in a single archive. You also want to test the process of recovering the files from this archive if it's ever necessary.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+3.6 Given a scenario, backup, restore, and compress files
+If necessary, unlock the encrypted volume. Open the Files app, then select + Other Locations, then select the encrypted volume and input linuxplus as the passphrase.
+Copy the employee data files to your home directory
+Ensure you are in your home directory.
+
+Enter cp -r /opt/linuxplus/securing_linux_systems/employee_data employee_data
+
+Enter ls -l and verify that the directory was copied.
+
+Archive the employee data files and then copy the archive to the data backup volume
+Enter tar -cvf employee_data.tar employee_data/*
+
+This creates a new archive with the specified name. The asterisk (*) indicates that all files within the employee_data directory should be added to the archive.
+
+Enter ls -l and verify that the .tar file is present.
+
+Enter tar -tf employee_data.tar to list the contents of the archive.
+
+Enter sudo cp employee_data.tar /backup/data/employee_data.tar
+
+Enter ls -l /backup/data and verify that the archive file is now on the data backup volume.
+
+Restore all files from the archive, then restore a single file.
+Enter cd /backup/data to change your current working directory.
+
+Enter sudo tar -xf /backup/data/employee_data.tar
+
+Enter ls -l employee_data and verify that all of the files were extracted to the directory.
+
+Enter sudo rm -r employee_data to delete the directory.
+
+Enter sudo tar -xf employee_data.tar employee_data/emp_2018.csv
+
+Enter ls -l employee_data and verify that only the one file was extracted.
+
+Enter sudo rm -r employee_data to delete the directory.

@@ -1,0 +1,54 @@
+Activity 5-10
+Processing Text Files
+Before You Begin
+You are logged in to the CLI as your student account. You have a directory at ~/policies that includes two text files, as well as the software_list.txt file in the home directory.
+
+Scenario
+Now that the software list and policy documents are all set and in the right locations, you can begin to analyze them more closely. In particular, you want to sort the software list so you can more quickly identify what software packages still need to be installed and/or configured. Likewise, you want to ensure that you know exactly what was changed from the first version of the AUP to the second version, so you don't have to read the entire thing from the beginning.
+
+You also want to switch gears to your log analysis duties. You want to identify instances where users enter an incorrect password and fail to log in. This could point to users that are trying to access resources they are not authorized for. However, the authentication log can be very large, so you'll need to process it in order to extract only the relevant information.
+
+Sort the software list file by name, then by which packages need to be installed and/or configured.
+
+Enter cd ~ to return to your home directory.
+Enter cat software_list.txt to review the column structure of this file.
+Enter sort -k1 software_list.txt
+Verify that the list was sorted by the first column, which is the name of each software package. However, the sort operation was not perfect, as the column headers were included. There are several ways to stop this from happening, one of which you'll perform in a later topic.
+Enter sort -k3 software_list.txt to sort by the "Installed?" column.
+Sort by the "Configured?" column.
+Retrieve the word count of the AUP files.
+
+Enter cd policies
+Enter wc -w aup_v1.txt
+Verify that you can see the word count of version 1 of the AUP policy file.
+Enter wc -w aup_v1.txt aup_v2.txt
+Verify that you can see the word counts of both versions of the file, as well as a combined total.
+Examine the differences between the AUP files.
+
+Enter diff aup_v1.txt aup_v2.txt
+
+Verify that you are presented with the differences between each file, as well as suggested actions. The differences are as follows:
+
+33a34,41 means that after line 33 in the first file (version 1), lines 3441 from the second file (version 2) need to be added in order for that chunk of text to be the same.
+
+The multiple > symbols indicate each line that must be added to the first file in order to be the same as the second file.
+
+In other words, the HR lead added this entire new section to version 2 of the policy.
+
+35a44 means that at line 35 in the first file, line 44 from the second file needs to be added in order for the text to be the same.
+
+In other words, the HR lead added an entry to the revision history explaining her changes.
+
+Search the authentication log for failed login attempts.
+
+Enter sudo cat /var/log/secure
+
+Verify that there are many entries in the authentication log. Rather than read the entire log or search term-by-term for failure entries, you can use grep to bring all of the relevant information to the forefront in one command.
+
+Enter su - ariley and provide an incorrect password to simulate an authentication failure.
+
+Caution: Don't actually sign in.
+
+Enter sudo grep failed /var/log/secure
+
+Verify that you are presented with all lines in the log containing the text string "failed".

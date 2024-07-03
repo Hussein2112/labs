@@ -1,0 +1,24 @@
+Before you start the lab, make the user contractor1 exists and is assigned a password. Create the user if he doesn't exist.
+Also, create the directory /opt/myapp and create file1 to file10 in that directory. Make sure 
+the user contractor1 owns all those files
+
+
+
+Lab:
+Finding User Files and Reassigning Permissions in Linux
+Use find to Locate Files
+Before we can modify any file permissions, we've got to know which files need modifying. To find the files owned by the contractor1 user, let's run:
+
+[stdnt5@chicago]$ sudo find / -user contractor1
+Change Ownership of the Files
+Now that we know where the files are, we can change ownership of them from contractor1 to stdnt5. It looks like /opt/myapp contains a lot of files he owns, so let's start by changing that:
+
+[stdnt5@chicago]$ sudo chown -R stdnt5:stdnt5 /opt/myapp
+If we run ls -l /opt/myapp, we can see the stdnt5 user and group own the directory now.
+
+Check for More Files and Change Them
+We can run the find command again to see what's left to change. There will be a few more things, like contractor1s's home directory and some mail. We can fix those with these two commands:
+
+[stdnt5@chicago]$ sudo chown -R stdnt5:stdnt5 /home/contractor1
+[stdnt5@chicago]$ sudo chown -R stdnt5:stdnt5 /var/spool/mail/contractor1
+We can run the find command again to check, but at this point it looks like we've got them all.

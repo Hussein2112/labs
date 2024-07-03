@@ -1,0 +1,49 @@
+Scheduling Repeated Tasks
+Scenario
+Develetech adopted a new policy that requires all users to fill in their time sheets every day. You'll create a daily reminder for all user systems.
+
+Objectives
+Completing this activity will help you to use content examples from the following syllabus objectives:
+
+2.6 Given a scenario, automate and schedule jobs
+Schedule a cron job to email a reminder every day at a specified time
+Enter sudo crontab -u cmason -e to specify a cron job for Chris Mason.
+
+Verify that Vim opens a temporary file automatically.
+
+Type the following line in the file:
+
+MM HH * * * /bin/echo "Please fill in your time sheet."
+
+Replace MM and HH with the appropriate minute and hour time values in 24-hour time format. Ensure that the time you enter is three minutes ahead of the current system time. This way, you'll be able to see the message during the lab.
+
+For example, if the time is 2:30 P.M., you'd type:
+
+33 14 * * * /bin/echo "Please fill in your time sheet."
+
+Save and close the file.
+
+From the desktop menu, select the icons at the top-right, then select student01Log Out.
+
+Select Log Out.
+
+Verify that Chris Mason received the reminder for the scheduled job
+Log in as Chris Mason.
+
+You can ignore the Welcome screen, or you can step through the wizard to dismiss it.
+
+Open a terminal.
+
+Wait for the time to pass for the cron job to execute.
+
+Remember, you can use date to check the time. You can also check the time from the desktop menu in the GUI.
+
+Enter mail
+
+Enter 1 to read the contents of the first email message.
+
+Verify that the mail contains a reminder to fill in the time sheet.
+
+Press q to quit the mail service.
+
+Log out as Chris Mason and log back in as your student01 account.
