@@ -15,7 +15,7 @@ Using the cat command and output redirection, send the contents of the /etc/redh
 
 This can be accomplished via:
 
- cat /etc/redhat-release >> notes.txt
+ cat /etc/os-release >> notes.txt
  
 Modify the notes.txt File
 Open the notes.txt file for editing again. Place the cursor before the openening parentheses around the word "Core." Using a keyboard shortcut, delete the text from the cursor position to the end of the line. Leave two blank lines under this line. Save and close the file.
